@@ -61,6 +61,19 @@ a.tile{text-decoration:none;line-height:normal}
 .tile p{margin:0;font-size:15px}
 .tile .stat{margin-top:auto;padding-top:12px;border-top:1px solid var(--edge-soft);font-family:var(--f-mono);font-size:12px;color:var(--faint)}
 
+.tile-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.tile-ic{display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 12px;border-radius:var(--r);background:var(--c);color:#fff}
+.tile-ic svg{display:block;width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tile{--c:#333;--soft:#f5f5f5;--line:#ddd;background:var(--soft);border-color:var(--line);transition:border-color .15s,transform .15s,box-shadow .15s}
+.tile:hover{border-color:var(--c);transform:translateY(-2px);box-shadow:0 8px 20px rgba(40,30,20,.09)}
+.tile .i{color:var(--c);font-weight:500}
+.tile .stat{border-top-color:var(--line);color:#4f4f4f}
+.t-script{--c:#B5532D;--soft:#FBF1EB;--line:#EFD6C8}
+.t-seehear{--c:#1F6F6B;--soft:#EBF5F3;--line:#C9E2DE}
+.t-fixes{--c:#946512;--soft:#FBF5E6;--line:#EBDDB9}
+.t-elements{--c:#6A4A8C;--soft:#F3EFF8;--line:#DCD0EA}
+.top .eyebrow{color:#B5532D}
+
 /* ---------- כותרת של כל טאב וכל סעיף ---------- */
 section{padding-top:48px}
 .shead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
@@ -112,6 +125,10 @@ section{padding-top:48px}
 .ch-title{font-family:var(--f-head);font-weight:600;font-stretch:75%;font-size:20px;letter-spacing:.02em}
 .ch-sub{font-size:15px}
 .ch-meta{margin-inline-start:auto;font-family:var(--f-mono);font-size:12px;color:var(--faint);word-spacing:-.32em}
+.ch-tag{font-family:var(--f-mono);font-size:11px;line-height:1.5;border:1px solid var(--faint);border-radius:var(--r-xs);padding:0 7px;word-spacing:-.32em}
+.ch-tag.cut{background:var(--faint);color:#fff}
+.ch-tag.optional{border-style:dashed;color:var(--faint)}
+.ch.dim .ch-n,.ch.dim .ch-title,.ch.dim .ch-sub,.ch.dim .ch-meta,.ch.dim .ch-chev,.ch.dim .tw{opacity:.5}
 .ch .tw{border:0;border-top:1px solid var(--edge);border-radius:0}
 #seehear td.dn,#seehear th.dn{width:60px;text-align:center}
 #seehear tr.gap td{padding:0;background:#fafafa;text-align:center;height:22px;opacity:1}
@@ -214,6 +231,7 @@ footer{margin-top:0;padding:22px 0 40px;border-top:1px solid var(--edge);font-si
    id        מזהה קצר וייחודי לפרויקט. הסימונים והעריכות נשמרים בדפדפן לפי המזהה.
    images    נתיב יחסי לקובץ הזה. בלי תמונה מוצג מקום ריק.
    chapters  רואים שומעים מחולק לפרקים, וכל פרק מחזיק את השוטים שלו ב-scenes. הכול נפתח סגור.
+   status    בפרק: 'cut' (ירד) או 'optional' (אופציונלי). הפרק מקבל תגית וטקסט חלש יותר.
    notes     הערה התחלתית לשוט. הערה שנכתבת בדשבורד נשמרת בדפדפן וגוברת עליה.
    gap       הפס שבין סצנה לבאה, למשל כמה שנים עברו. אפשר להשמיט.
    ready/done סימון התחלתי של "מוכן" ו"בוצע". סימון בדפדפן גובר עליו.
@@ -278,11 +296,11 @@ const PROJECT = {
       ]},
       { id: '2', title: 'שפרה, פועה, משה', sub: 'מצרים · בערך 1300 לפנה״ס', scenes: [] },
       { id: '3', title: 'אסתר', sub: 'שושן, פרס · בערך 470 לפנה״ס', scenes: [] },
-      { id: '4', title: 'מתתיהו ויהודה המכבי', sub: 'מודיעין, יהודה · 167 לפנה״ס', scenes: [] },
-      { id: '5', title: 'הרמב״ן', sub: 'ברצלונה · 1263', scenes: [] },
+      { id: '4', status: 'cut', title: 'מתתיהו ויהודה המכבי', sub: 'מודיעין, יהודה · 167 לפנה״ס', scenes: [] },
+      { id: '5', status: 'cut', title: 'הרמב״ן', sub: 'ברצלונה · 1263', scenes: [] },
       { id: '6', title: 'גרציה נשיא', sub: 'ליסבון ← איסטנבול · 1536–1556', scenes: [] },
       { id: '7', title: 'אלפרד דרייפוס ותיאודור הרצל', sub: 'פריז · 1895', scenes: [] },
-      { id: '8', title: 'פרעות קישינב', sub: 'קישינב ← הגליל · 1903–1909', scenes: [] },
+      { id: '8', status: 'optional', title: 'פרעות קישינב', sub: 'קישינב ← הגליל · 1903–1909', scenes: [] },
       { id: '9', title: 'אנילביץ׳, פצ׳רסקי, האחים בילסקי', sub: 'ורשה · סוביבור · היערות · 1943', scenes: [] },
       { id: '10', title: 'יוני נתניהו, נתן שרנסקי, ארבעה-עשר האלף', sub: 'אנטבה · מוסקבה · אדיס אבבה · 1976–1991', scenes: [] },
       { id: '11', title: 'ענבל רבין-ליברמן ונועה ארגמני', sub: 'ניר עם · תל אביב · בכל מקום · 2023', scenes: [] },
@@ -408,11 +426,26 @@ const PROJECT = {
   $('#foot').textContent = P.title + ' · TodoAI Studio';
 
   /* ---------- בית ---------- */
+  /* האייקונים של קוביות עמוד הבית. */
+  var I = {
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
+    eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+    sound: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
+    check: '<path d="m3 7 2 2 4-4"/><path d="m3 17 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>',
+    people: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+    image: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
+  };
+  var TILE_ICONS = { script: ['file'], seehear: ['eye', 'sound'], fixes: ['check'], elements: ['people', 'pin', 'image'] };
+  function tileTop(id, num) {
+    var icons = (TILE_ICONS[id] || []).map(function (k) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + I[k] + '</svg>'; }).join('');
+    return '<span class="tile-top"><span class="tile-ic">' + icons + '</span><span class="i">0' + num + '</span></span>';
+  }
   function renderHome() {
     var SF = P.scriptFile, first = SF ? 2 : 1;
-    var fileTile = SF ? '<a class="tile" href="' + esc(SF.path) + '" target="_blank" rel="noopener"><span class="i">01</span><h2>תסריט</h2><p>' + esc(SF.desc) + '</p><span class="stat">' + esc(SF.stat) + '</span></a>' : '';
+    var fileTile = SF ? '<a class="tile t-script" href="' + esc(SF.path) + '" target="_blank" rel="noopener">' + tileTop('script', 1) + '<h2>תסריט</h2><p>' + esc(SF.desc) + '</p><span class="stat">' + esc(SF.stat) + '</span></a>' : '';
     var tiles = fileTile + TABS.slice(1).map(function (t, i) {
-      return '<button type="button" class="tile" data-go="' + t.id + '"><span class="i">0' + (i + first) + '</span><h2>' + esc(t.label) + '</h2><p>' + esc(t.desc) + '</p><span class="stat" data-stat="' + t.id + '"></span></button>';
+      return '<button type="button" class="tile t-' + t.id + '" data-go="' + t.id + '">' + tileTop(t.id, i + first) + '<h2>' + esc(t.label) + '</h2><p>' + esc(t.desc) + '</p><span class="stat" data-stat="' + t.id + '"></span></button>';
     }).join('');
     $('#p-home').innerHTML = '<header class="top"><p class="eyebrow">' + esc(P.eyebrow) + '</p><h1>' + esc(P.title) + '</h1><p class="lede">' + esc(P.lede) + '</p></header><div class="tiles">' + tiles + '</div>';
     $('#p-home').addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) show(b.dataset.go); });
@@ -458,8 +491,8 @@ const PROJECT = {
   function renderSeeHear() {
     var notes = savedNotes();
     var chapters = SH.chapters.map(function (ch) {
-      return '<details class="ch" data-ch="' + esc(ch.id) + '"><summary class="ch-head"><span class="ch-chev" aria-hidden="true">‹</span><span class="ch-n">' + esc(ch.id) + '</span><span class="ch-title">' + esc(ch.title) + '</span>' +
-        (ch.sub ? '<span class="ch-sub">' + esc(ch.sub) + '</span>' : '') + '<span class="ch-meta"></span></summary>' +
+      return '<details class="ch' + (ch.status ? ' dim' : '') + '" data-ch="' + esc(ch.id) + '"><summary class="ch-head"><span class="ch-chev" aria-hidden="true">‹</span><span class="ch-n">' + esc(ch.id) + '</span><span class="ch-title">' + esc(ch.title) + '</span>' +
+        (ch.sub ? '<span class="ch-sub">' + esc(ch.sub).replace(/\d+–\d+/g, function (m) { return '<bdi dir="ltr">' + m + '</bdi>'; }) + '</span>' : '') + (ch.status ? '<span class="ch-tag ' + esc(ch.status) + '">' + (ch.status === 'cut' ? 'ירד' : 'אופציונלי') + '</span>' : '') + '<span class="ch-meta"></span></summary>' +
         '<div class="tw"><table><thead><tr><th class="dn">מוכן</th><th>#</th><th>' + esc(SH.timeLabel) + '</th><th>' + esc(SH.titleLabel) + '</th>' +
         SH.columns.map(function (c) { return '<th>' + esc(c.label) + '</th>'; }).join('') + '</tr></thead><tbody>' + shRows(ch, notes) + '</tbody></table></div></details>';
     }).join('');

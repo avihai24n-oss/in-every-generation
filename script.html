@@ -207,6 +207,26 @@ html[lang="he"] .note p { font-size: 15px; line-height: 1.6; }
 .note.emotion p { font-style: italic; }
 html[lang="he"] .note.emotion p { font-style: normal; font-weight: 500; }
 
+/* Cut and optional scenes */
+.scene-cut summary { cursor: pointer; list-style: none; }
+.scene-cut summary::-webkit-details-marker { display: none; }
+.scene-cut summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.scene-cut:not([open]) { margin-bottom: 0; }
+.scene-cut:not([open]) .scene-head { margin-bottom: 0; }
+.cut-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.cut-top .scene-no { margin-bottom: 0; }
+.cut-chev::before { content: "▸"; display: inline-block; color: var(--muted); font-size: 12px; }
+[dir="rtl"] .cut-chev::before { content: "◂"; }
+.scene-cut[open] .cut-chev::before { transform: rotate(90deg); }
+[dir="rtl"] .scene-cut[open] .cut-chev::before { transform: rotate(-90deg); }
+.cut-tag { border: 1px solid var(--muted); border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 600; line-height: 1.5; letter-spacing: .06em; color: var(--body); }
+html[lang="he"] .cut-tag { font-size: 12px; letter-spacing: 0; }
+.cut-tag.cut { background: var(--muted); border-color: var(--muted); color: #fff; }
+.cut-tag.optional { border-style: dashed; }
+.scene-cut .scene-no,
+.scene-cut .scene-head,
+.scene-cut .cut-body { opacity: .5; }
+
 /* Side by side scenes */
 .split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start; }
 .split .guide-wrap { min-width: 0; }
@@ -247,6 +267,15 @@ html[lang="he"] .endcard p { font-style: normal; font-size: 16px; }
 .chapters .c-name { width: 24%; font: 700 17px/1.4 var(--serif); }
 .chapters .c-period { width: 25%; color: var(--ink); font-size: 14px; line-height: 1.55; }
 .chapters .c-sum { color: var(--body); font-size: 15px; line-height: 1.65; }
+
+.chapters .row-cut .c-no,
+.chapters .row-cut .c-period,
+.chapters .row-cut .row-sum { opacity: .5; }
+.chapters .row-cut .c-name { color: var(--muted); }
+.chapters .cut-tag { display: inline-block; margin-inline-start: 8px; font-family: "Heebo", sans-serif; vertical-align: middle; }
+.row-toggle { appearance: none; background: none; border: 0; padding: 0; color: var(--body); font: 500 13px "Heebo", sans-serif; text-decoration: underline; cursor: pointer; }
+.row-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.row-sum { margin-top: 8px; }
 
 @media (max-width: 720px) {
   .chapters thead { display: none; }
@@ -348,8 +377,8 @@ html[lang="he"] .endcard p { font-style: normal; font-size: 16px; }
 
 <script>
 const UI = {
-  en: { guide: 'GUIDE', visual: 'VISUAL', emotion: 'EMOTION', references: 'REFERENCES', scene: 'SCENE', footer: 'SIXMILLIONVOICES.ORG · IN EVERY GENERATION · SCENE ', words: w => `${w} W` },
-  he: { guide: 'מדריך', visual: 'ויזואל', emotion: 'רגש', references: 'מקורות', scene: 'סצנה', footer: 'SIXMILLIONVOICES.ORG · בכל דור ודור · סצנה ', words: w => `${w} מילים` }
+  en: { guide: 'GUIDE', visual: 'VISUAL', emotion: 'EMOTION', references: 'REFERENCES', cut: 'CUT', optional: 'OPTIONAL', scene: 'SCENE', footer: 'SIXMILLIONVOICES.ORG · IN EVERY GENERATION · SCENE ', words: w => `${w} W` },
+  he: { guide: 'מדריך', visual: 'ויזואל', emotion: 'רגש', references: 'מקורות', cut: 'ירד', optional: 'אופציונלי', scene: 'סצנה', footer: 'SIXMILLIONVOICES.ORG · בכל דור ודור · סצנה ', words: w => `${w} מילים` }
 };
 
 const COVER = {
@@ -428,7 +457,7 @@ const SCENES = [
       refs: `אסתר ג׳, ח׳–י״ג (הצו, בקיצור), ד׳, י״א–ט״ז (שלושים יום; ״כאשר אבדתי״), ז׳, י׳ (העץ). 127 מדינות: א׳, א׳.`
     }
   },
-  { n: 4, time: '2:15–3:08', words: 118,
+  { n: 4, status: 'cut', time: '2:15–3:08', words: 118,
     en: {
       title: "Modi'in, Judea · 167 BCE", sub: 'Mattathias and Judah Maccabee',
       guide: [`For the Greeks the problem was simpler: the Jews were the people who would not join in — would not eat with the others, would not bow to the city's gods. King Antiochus called himself Epiphanes — “God made manifest” — and outlawed the Sabbath, the Torah and circumcision on pain of death. In Modi'in, an old priest, Mattathias, was ordered to bow to an altar in the village square. He tore it down, and walked into the hills with his five sons. The third, Judah, earned a nickname: Maccabee. The Hammer. Farmers against war elephants. Three years later, to the day, Judah lit the lamp in Jerusalem. We still light it in the window, facing the street.`],
@@ -444,7 +473,7 @@ const SCENES = [
       refs: `מקבים א׳ 1–4; מקבים ב׳ 6 (הגזירות, המזבח). חנוכת המקדש מחדש, כ״ה בכסלו 164 לפנה״ס, ״שלוש שנים בדיוק״ (מקבים א׳ 4:52–54). פרסומי ניסא — הדלקה מול הרחוב: שבת כ״א ע״ב.`
     }
   },
-  { n: 5, time: '3:08–3:53', words: 99,
+  { n: 5, status: 'cut', time: '3:08–3:53', words: 99,
     en: {
       title: 'Barcelona · 1263', sub: 'Nachmanides',
       guide: [`In the Middle Ages the hatred acquired a theology — the Jews had killed God — and from it came the blood libel, the poisoned wells, the yellow badge, the expulsions. In Barcelona, King James of Aragon ordered the greatest rabbi in Spain, Nachmanides, to debate the Church before the court, and granted him one thing: freedom to speak. He spoke for four days. The king said he had never heard an unjust cause so nobly defended. And exiled him. Nachmanides went to Jerusalem, found two Jews living in the ruins, and built a synagogue. It is open tonight.`],
@@ -492,7 +521,7 @@ const SCENES = [
       refs: `טקס ההשפלה 5 בינואר 1895; הערכות בנות הזמן מדברות על 4,000 חיילים בפנים וכ-20,000 בחוץ. Antisemitismus של מאר (1879) הוא ״חלוק המעבדה״. זיכוי 1906. Der Judenstaat, פברואר 1896 (כ-80 עמודים במהדורה הראשונה). העצמאות 14 במאי 1948.`
     }
   },
-  { n: 8, time: '5:18–5:58', words: 86,
+  { n: 8, status: 'optional', time: '5:18–5:58', words: 86,
     en: {
       title: 'Kishinev → Galilee · 1903–1909', sub: 'The Shomrim',
       guide: [`In Russia, the Tsar's police forged a book — The Protocols of the Elders of Zion — which said the Jews ruled the world, and let the mob loose in Kishinev. Forty-nine dead in two days, with the police watching. This time the Jews did not wait. They bought revolvers. And in 1909, on a hill in the Galilee, ten young men saddled horses and founded the first Jewish guard in nineteen centuries: HaShomer. The Watchman. The Watchman became the Haganah. The Haganah became an army.`],
@@ -707,7 +736,23 @@ function renderScene(s, lang) {
     split.append(guideWrap, notes);
     sec.append(split);
   }
-  return sec;
+  return s.status ? collapseScene(sec, s.status, ui) : sec;
+}
+
+// A cut or optional scene: closed by default, showing its title and a tag
+function collapseScene(sec, status, ui) {
+  const box = el('details', 'scene scene-cut');
+  const sum = el('summary');
+  const top = el('div', 'cut-top');
+  const chev = el('span', 'cut-chev');
+  chev.setAttribute('aria-hidden', 'true');
+  const [no, head, ...rest] = sec.children;
+  top.append(chev, no, el('span', 'cut-tag ' + status, ui[status]));
+  sum.append(top, head);
+  const body = el('div', 'cut-body');
+  body.append(...rest);
+  box.append(sum, body);
+  return box;
 }
 
 function renderCover(lang) {
@@ -765,13 +810,28 @@ function renderList() {
   thead.append(hr);
   const tbody = el('tbody');
   CHAPTERS.forEach((c, i) => {
-    const tr = el('tr');
-    tr.append(
-      el('td', 'c-no', String(i + 1).padStart(2, '0')),
-      el('td', 'c-name', c.name),
-      el('td', 'c-period', c.period),
-      el('td', 'c-sum', c.sum)
-    );
+    const status = SCENES[i].status;
+    const tr = el('tr', status ? 'row-cut' : '');
+    const name = el('td', 'c-name', c.name);
+    const sum = el('td', 'c-sum');
+    if (status) {
+      // A cut or optional chapter: a tag, and its summary behind a toggle
+      name.append(el('span', 'cut-tag ' + status, UI.he[status]));
+      const text = el('div', 'row-sum', c.sum);
+      text.hidden = true;
+      const btn = el('button', 'row-toggle', 'הצג תיאור');
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.addEventListener('click', () => {
+        text.hidden = !text.hidden;
+        btn.textContent = text.hidden ? 'הצג תיאור' : 'הסתר תיאור';
+        btn.setAttribute('aria-expanded', String(!text.hidden));
+      });
+      sum.append(btn, text);
+    } else {
+      sum.textContent = el('span', '', c.sum).textContent;
+    }
+    tr.append(el('td', 'c-no', String(i + 1).padStart(2, '0')), name, el('td', 'c-period', c.period), sum);
     tbody.append(tr);
   });
   table.append(thead, tbody);
