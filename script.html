@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>In Every Generation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Bitter:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&family=Noto+Serif+Hebrew:wght@400;500;600;700;800&family=Heebo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --orange: #E8641B;
+  --ink: #111111;
+  --body: #5F5F5F;
+  --muted: #8C8C8C;
+  --line: #E2E0DC;
+  --guide-bg: #F6F3EE;
+  --page: #FFFFFF;
+  --desk: #ECEAE6;
+  --serif: "Bitter", Georgia, serif;
+  --sans: "Barlow", Arial, sans-serif;
+}
+html[lang="he"] {
+  --serif: "Noto Serif Hebrew", "Bitter", Georgia, serif;
+  --sans: "Heebo", "Barlow", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--sans);
+  overflow-wrap: break-word;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Language switch */
+.switch {
+  position: fixed;
+  top: 16px;
+  inset-inline-end: 16px;
+  z-index: 10;
+  display: flex;
+  direction: ltr;
+  background: var(--page);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+}
+.switch button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--body);
+  font: 600 13px/1 "Heebo", "Barlow", Arial, sans-serif;
+  padding: 8px 14px;
+  min-height: 34px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.switch button[aria-pressed="true"] { background: var(--orange); color: #fff; }
+.switch button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Pages */
+main { padding: 24px 0 48px; }
+.sheet {
+  width: min(900px, 100%);
+  margin: 0 auto 24px;
+  background: var(--page);
+  padding: 44px 56px 22px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .08);
+}
+.sheet-foot {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-align: end;
+  text-transform: uppercase;
+}
+html[lang="he"] .sheet-foot { letter-spacing: .04em; }
+
+/* Cover */
+.cover {
+  min-height: min(900px, 100vh);
+  min-height: min(900px, 100svh);
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 66%, #FBE5D6 0, rgba(251, 229, 214, 0) 42%), var(--page);
+}
+.cover-top { display: flex; justify-content: flex-end; }
+.eyebrow {
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+html[lang="he"] .eyebrow { letter-spacing: .06em; }
+.cover-body { margin: auto 0; padding: 60px 0; }
+.cover-kicker {
+  color: var(--orange);
+  font-family: "Noto Serif Hebrew", serif;
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+html[lang="he"] .cover-kicker {
+  font-family: "Bitter", serif;
+  font-size: 18px;
+  letter-spacing: .08em;
+}
+.cover h1 {
+  margin: 0 0 30px;
+  font-family: var(--serif);
+  font-size: clamp(44px, 9.5vw, 82px);
+  font-weight: 800;
+  line-height: 1.04;
+}
+.cover h1 em { display: block; color: var(--orange); font-style: italic; }
+html[lang="he"] .cover h1 em { font-style: normal; }
+.cover-stats { display: flex; flex-wrap: wrap; gap: 32px; }
+.cover-stats > div { min-width: 150px; padding-top: 12px; border-top: 1px solid var(--line); }
+.cover-stats b { display: block; font: 800 22px/1.2 var(--serif); margin-bottom: 6px; }
+.cover-stats span,
+.cover-foot {
+  color: var(--body);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+html[lang="he"] .cover-stats span,
+html[lang="he"] .cover-foot { letter-spacing: .04em; font-size: 12px; }
+.cover-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* Scenes */
+.scene + .scene { margin-top: 34px; padding-top: 30px; border-top: 1px solid var(--line); }
+.scene { margin-bottom: 30px; }
+.scene-no {
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  margin-bottom: 6px;
+}
+html[lang="he"] .scene-no { letter-spacing: .06em; font-size: 13px; }
+.scene-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+.scene-head h2 {
+  margin: 0 0 4px;
+  font: 800 27px/1.2 var(--serif);
+}
+.scene-sub { color: var(--orange); font: italic 400 16px/1.35 var(--serif); }
+html[lang="he"] .scene-sub { font-style: normal; font-size: 16px; }
+.scene-meta { flex: none; text-align: end; }
+.scene-time { direction: ltr; font: 700 19px/1.25 "Bitter", serif; unicode-bidi: isolate; }
+.scene-words {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .14em;
+}
+html[lang="he"] .scene-words { letter-spacing: 0; font-size: 12px; }
+.label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  margin-bottom: 8px;
+}
+html[lang="he"] .label { letter-spacing: .05em; font-size: 12px; }
+.guide {
+  background: var(--guide-bg);
+  border-inline-start: 2px solid var(--orange);
+  padding: 20px 24px;
+}
+.guide p {
+  margin: 0 0 12px;
+  font: 400 17px/1.62 var(--serif);
+}
+html[lang="he"] .guide p { font-size: 17px; line-height: 1.8; }
+.guide p:last-child { margin-bottom: 0; }
+.guide .silence { color: var(--muted); font-style: italic; }
+.guide .speaker:not(:first-child) { margin-top: 20px; }
+html[lang="he"] .guide .silence { font-style: normal; }
+.note { margin-bottom: 18px; }
+.note:last-child { margin-bottom: 0; }
+.note p {
+  margin: 0;
+  color: var(--body);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+html[lang="he"] .note p { font-size: 15px; line-height: 1.6; }
+.note.emotion p { font-style: italic; }
+html[lang="he"] .note.emotion p { font-style: normal; font-weight: 500; }
+
+/* Side by side scenes */
+.split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.split .guide-wrap { min-width: 0; }
+
+/* Full width scenes (opening and closing) */
+.wide .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin-top: 28px; }
+.wide .note { margin-bottom: 0; }
+
+/* End card */
+.endcard { margin-top: 18px; padding: 38px 16px; text-align: center; border-top: 1px solid var(--line); }
+.endcard h3 { margin: 0 0 8px; font: 800 30px/1.2 var(--serif); }
+.endcard .he-line { color: var(--orange); font: 500 24px/1.3 "Noto Serif Hebrew", serif; margin-bottom: 14px; }
+html[lang="he"] .endcard .he-line { font: 500 16px/1.3 "Bitter", serif; letter-spacing: .06em; }
+.endcard p { margin: 0; color: var(--body); font: italic 400 16px/1.5 var(--serif); }
+html[lang="he"] .endcard p { font-style: normal; font-size: 16px; }
+
+/* Chapter list */
+.list-head { margin-bottom: 26px; }
+.list-head h2 { margin: 6px 0 4px; font: 800 30px/1.2 var(--serif); }
+.list-head p { margin: 0; color: var(--body); font-size: 15px; }
+.chapters { width: 100%; border-collapse: collapse; }
+.chapters th {
+  padding: 0 12px 10px;
+  border-bottom: 2px solid var(--orange);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: start;
+}
+.chapters td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.chapters tr:last-child td { border-bottom: 0; }
+.chapters tbody tr:nth-child(even) { background: #FBF9F6; }
+.chapters .c-no { width: 44px; color: var(--orange); font-weight: 600; font-size: 14px; }
+.chapters .c-name { width: 24%; font: 700 17px/1.4 var(--serif); }
+.chapters .c-period { width: 25%; color: var(--ink); font-size: 14px; line-height: 1.55; }
+.chapters .c-sum { color: var(--body); font-size: 15px; line-height: 1.65; }
+
+@media (max-width: 720px) {
+  .chapters thead { display: none; }
+  .chapters,
+  .chapters tbody,
+  .chapters tr,
+  .chapters td { display: block; width: auto; }
+  .chapters tr { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .chapters tr:last-child { border-bottom: 0; }
+  .chapters tbody tr:nth-child(even) { background: none; }
+  .chapters td { padding: 0 0 6px; border: 0; }
+  .chapters .c-no,
+  .chapters .c-name,
+  .chapters .c-period { width: auto; }
+}
+
+/* Phones and small tablets: the switch becomes a full-width bar, so it never covers text */
+@media (max-width: 900px) {
+  .switch {
+    position: sticky;
+    top: 0;
+    inset-inline-end: auto;
+    width: 100%;
+    gap: 4px;
+    padding: 6px 16px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .switch button { flex: 1; min-height: 44px; font-size: 14px; }
+  main { padding-top: 0; }
+  .label,
+  .scene-words,
+  .sheet-foot,
+  .cover-stats span,
+  .cover-foot { font-size: 12px; letter-spacing: .1em; }
+  html[lang="he"] .label,
+  html[lang="he"] .scene-words,
+  html[lang="he"] .sheet-foot,
+  html[lang="he"] .cover-stats span,
+  html[lang="he"] .cover-foot { font-size: 13px; letter-spacing: 0; }
+  .eyebrow, .scene-no { font-size: 12px; letter-spacing: .14em; }
+}
+
+@media (max-width: 720px) {
+  main { padding: 0 0 24px; }
+  .sheet { margin-bottom: 12px; padding: 28px 16px 16px; box-shadow: none; }
+  .cover { min-height: calc(100svh - 57px); }
+  .note p { font-size: 15px; line-height: 1.6; }
+  html[lang="he"] .note p { font-size: 16px; }
+  .guide p { font-size: 17px; }
+  .chapters .c-sum { font-size: 16px; }
+  .chapters .c-period { font-size: 15px; }
+  .list-head h2 { font-size: 26px; }
+  .endcard { padding: 28px 0; }
+  .endcard h3 { font-size: 25px; }
+  .split,
+  .wide .notes { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .scene-head { gap: 12px; }
+  .scene-head h2 { font-size: 22px; }
+  .scene-time { font-size: 15px; }
+  .guide { padding: 16px; }
+}
+
+@media (max-width: 480px) {
+  .scene-head { flex-direction: column; gap: 8px; }
+  .scene-meta { display: flex; align-items: baseline; gap: 10px; text-align: start; }
+  .scene-words { margin-top: 0; }
+  .cover-stats { gap: 20px; }
+  .cover-stats > div { min-width: 130px; flex: 1; }
+}
+
+/* Phones held sideways */
+@media (max-height: 500px) {
+  .cover { min-height: 0; }
+  .cover-body { padding: 28px 0; }
+}
+
+@media print {
+  body { background: #fff; }
+  .switch { display: none; }
+  main { padding: 0; }
+  .sheet { width: 100%; margin: 0; box-shadow: none; break-after: page; padding: 28px 36px 14px; }
+  .cover { min-height: 95vh; }
+  .scene { break-inside: avoid; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+<div class="switch" role="group" aria-label="Language">
+  <button type="button" data-set-lang="en">English</button>
+  <button type="button" data-set-lang="he">עברית</button>
+  <button type="button" data-set-lang="list">פרקים</button>
+  <button type="button" data-set-lang="updated">עברית מעודכן</button>
+</div>
+<main id="root"></main>
+
+<script>
+const UI = {
+  en: { guide: 'GUIDE', visual: 'VISUAL', emotion: 'EMOTION', references: 'REFERENCES', scene: 'SCENE', footer: 'SIXMILLIONVOICES.ORG · IN EVERY GENERATION · SCENE ', words: w => `${w} W` },
+  he: { guide: 'מדריך', visual: 'ויזואל', emotion: 'רגש', references: 'מקורות', scene: 'סצנה', footer: 'SIXMILLIONVOICES.ORG · בכל דור ודור · סצנה ', words: w => `${w} מילים` }
+};
+
+const COVER = {
+  en: {
+    top: 'VIDEO SCRIPT · NOVEMBER 2026', kicker: 'בְּכָל דּוֹר וָדוֹר', l1: 'IN EVERY', l2: 'GENERATION',
+    s1: '~9 min', s1l: 'NARRATED · ENGLISH', s2: '12', s2l: 'SCENES · 10 GENERATIONS',
+    f1: 'SIXMILLIONVOICES.ORG', f2: 'IN EVERY GENERATION'
+  },
+  he: {
+    top: 'תסריט וידאו · נובמבר 2026', kicker: 'IN EVERY GENERATION', l1: 'בְּכָל דּוֹר', l2: 'וָדוֹר',
+    s1: 'כ-9 דק׳', s1l: 'קריינות · אנגלית', s2: '12', s2l: 'סצנות · 10 דורות',
+    f1: 'SIXMILLIONVOICES.ORG', f2: 'בכל דור ודור'
+  }
+};
+
+const SCENES = [
+  { n: 1, time: '0:00–0:55', words: 126, wide: true,
+    en: {
+      title: 'A night sky · 1899', sub: 'Opening — the question',
+      guide: [
+        `“If the statistics are right, the Jews constitute but one per cent of the human race. It suggests a nebulous dim puff of star-dust lost in the blaze of the Milky Way. Properly the Jew ought hardly to be heard of.”`,
+        `“The Egyptian, the Babylonian, and the Persian rose, filled the planet with sound and splendor, then faded to dream-stuff and passed away; the Greek and the Roman followed, and made a vast noise, and they are gone. The Jew saw them all. All things are mortal but the Jew. What is the secret of his immortality?”`,
+        `Mark Twain wrote that in 1899.`,
+        `He had no idea what was coming.`,
+        `In every generation, they rise up against us.`,
+        `This film is the answer to his question.`
+      ],
+      visual: `Black, then the Milky Way, slowly. As the guide names them, constellations go out one by one and each is, for a moment, an empire: a pyramid, a ziggurat, a Persian lion, a Greek column, a Roman eagle — each dissolving to dust. At “What is the secret” the sky is empty. Black. A single flame lights: a candle in a window, seen from the street.`,
+      emotion: `Curiosity, then vertigo. The date lands like a blade.`,
+      refs: `Mark Twain, “Concerning the Jews”, Harper's Magazine, September 1899 — public domain, quoted with cuts (see notebook). The flame in the window is the Hanukkah image that returns in Scene 3 and the closing.`
+    },
+    he: {
+      title: 'שמי לילה · 1899', sub: 'פתיחה — השאלה',
+      guide: [
+        `״אם הנתונים הסטטיסטיים נכונים, היהודים מהווים אחוז אחד בלבד מהמין האנושי. זה מעלה על הדעת ענן עמום וקלוש של אבק כוכבים, האובד בזוהר שביל החלב. למען האמת, בקושי היינו אמורים לשמוע על היהודי.״`,
+        `״המצרי, הבבלי והפרסי קמו, מילאו את העולם בקול ובהדר, ואז דעכו לכדי חומר של חלומות וחלפו; היווני והרומאי באו אחריהם, הקימו רעש גדול, ואינם עוד. היהודי ראה את כולם. הכול בן תמותה, מלבד היהודי. מהו סוד אלמותו?״`,
+        `מארק טוויין כתב את זה ב-1899.`,
+        `לא היה לו מושג מה עומד לבוא.`,
+        `בכל דור ודור עומדים עלינו.`,
+        `הסרט הזה הוא התשובה לשאלה שלו.`
+      ],
+      visual: `שחור, ואז שביל החלב, לאט. כשהמדריך מונה אותם, קבוצות כוכבים כבות אחת אחת, וכל אחת היא לרגע אימפריה: פירמידה, זיגורת, אריה פרסי, עמוד יווני, נשר רומי — כל אחת מתפוררת לאבק. ב״מהו סוד״ השמיים ריקים. שחור. להבה אחת נדלקת: נר בחלון, נראה מהרחוב.`,
+      emotion: `סקרנות, ואז סחרחורת. התאריך נוחת כמו להב.`,
+      refs: `מארק טוויין, ״Concerning the Jews״ (״על היהודים״), Harper's Magazine, ספטמבר 1899 — נחלת הכלל, מצוטט בקיצורים (ראו מחברת). הלהבה בחלון היא דימוי החנוכה שחוזר בסצנה 3 ובסיום.`
+    }
+  },
+  { n: 2, time: '0:55–1:35', words: 73,
+    en: {
+      title: 'Egypt · c. 1300 BCE', sub: 'Shifra, Puah, Moses',
+      guide: [`It began with a crown. A new Pharaoh looked at the Hebrews and said: they are too many — let us deal shrewdly with them. Bricks. Then the Nile, for every boy born. The order went to two midwives, Shifra and Puah. They did not carry it out, and lied to the king's face. One of the boys they spared, Moses, came back forty years later with four words: Let my people go.`],
+      visual: `Mud-brick works at dawn, a line of bent backs. A scribe reads a decree; the Nile, wide and slow. Two women, Shifra and Puah, before a throne — one lifts her chin and lies. A basket among reeds. Cut forty years: a man with a staff and a stammer stands in the same throne room and says four words. No plagues, no sea on screen: the hands, the basket, the staff.`,
+      emotion: `The first “no” in history, spoken by two midwives.`,
+      refs: `Exodus 1:9–10 (Pharaoh's line), 1:15–21 (the midwives), 5:1. The Haggadah's first-person telling: Pesachim 116b.`
+    },
+    he: {
+      title: 'מצרים · בערך 1300 לפנה״ס', sub: 'שפרה, פועה, משה',
+      guide: [`זה התחיל בכתר. פרעה חדש הביט בעברים ואמר: הם רבים מדי — הבה נתחכמה לו. לבנים. אחר כך הנילוס, לכל בן שנולד. הפקודה הגיעה לשתי מיילדות, שפרה ופועה. הן לא ביצעו אותה, ושיקרו למלך בפניו. אחד הבנים שהשאירו בחיים, משה, חזר ארבעים שנה אחר כך עם ארבע מילים: שלח את עמי.`],
+      visual: `מבני לבני בוץ עם שחר, שורה של גבות כפופים. סופר קורא צו; הנילוס, רחב ואיטי. שתי נשים, שפרה ופועה, מול כס מלכות — אחת מרימה את סנטרה ומשקרת. תיבה בין הקנים. קפיצה של ארבעים שנה: איש עם מטה וגמגום עומד באותו אולם כס ואומר ארבע מילים. בלי מכות, בלי ים על המסך: הידיים, התיבה, המטה.`,
+      emotion: `ה״לא״ הראשון בהיסטוריה, מפי שתי מיילדות.`,
+      refs: `שמות א׳, ט׳–י׳ (דברי פרעה), א׳, ט״ו–כ״א (המיילדות), ה׳, א׳. הסיפור בגוף ראשון של ההגדה: פסחים קט״ז ע״ב.`
+    }
+  },
+  { n: 3, time: '1:35–2:15', words: 98,
+    en: {
+      title: 'Shushan, Persia · c. 470 BCE', sub: 'Esther',
+      guide: [`In Persia, the hatred learned to write. A minister named Haman drafted the decree — a people scattered among the nations, whose laws are different; not worth tolerating — and sealed it with the king's ring: every Jew in the empire, on a single day. The queen, Esther, was a Jew, and no one at court knew. To enter the throne room unsummoned was death. She fasted three days, and walked in. If I perish, I perish. Haman hanged on the gallows he had built. And to this day, every spring, children drown out his name with noise.`],
+      visual: `A palace of glazed brick. A hand presses a signet ring into wax; couriers ride out in every direction. A woman alone in a corridor, robes on, a long doorway ahead; the sceptre lowered, then raised. Hard cut to tonight: a synagogue on Purim, a reader reaches a name, a hundred noisemakers, a child grinning.`,
+      emotion: `A woman walking toward a door that means death — and the sound of children, twenty-four centuries later.`,
+      refs: `Esther 3:8–13 (the decree, condensed), 4:11–16 (thirty days; “if I perish”), 7:10 (the gallows). 127 provinces: 1:1.`
+    },
+    he: {
+      title: 'שושן, פרס · בערך 470 לפנה״ס', sub: 'אסתר',
+      guide: [`בפרס, השנאה למדה לכתוב. שר בשם המן ניסח את הצו — עם מפוזר בין העמים, שחוקיו שונים; לא כדאי לסבול אותו — וחתם אותו בטבעת המלך: כל יהודי באימפריה, ביום אחד. המלכה, אסתר, הייתה יהודייה, ואיש בחצר לא ידע. כניסה לאולם הכס בלי הזמנה דינה מוות. היא צמה שלושה ימים, ונכנסה. כאשר אבדתי, אבדתי. המן נתלה על העץ שהכין. ועד היום, בכל אביב, ילדים מטביעים את שמו ברעש.`],
+      visual: `ארמון של לבנים מזוגגות. יד מטביעה טבעת חותם בשעווה; רצים יוצאים לכל כיוון. אישה לבדה במסדרון, בבגדי מלכות, פתח ארוך לפניה; השרביט מורד, ואז מורם. קאט חד להיום בלילה: בית כנסת בפורים, הקורא מגיע לשם, מאה רעשנים, ילד מחייך.`,
+      emotion: `אישה הולכת אל דלת שמשמעותה מוות — וקולם של ילדים, עשרים וארבע מאות שנה אחר כך.`,
+      refs: `אסתר ג׳, ח׳–י״ג (הצו, בקיצור), ד׳, י״א–ט״ז (שלושים יום; ״כאשר אבדתי״), ז׳, י׳ (העץ). 127 מדינות: א׳, א׳.`
+    }
+  },
+  { n: 4, time: '2:15–3:08', words: 118,
+    en: {
+      title: "Modi'in, Judea · 167 BCE", sub: 'Mattathias and Judah Maccabee',
+      guide: [`For the Greeks the problem was simpler: the Jews were the people who would not join in — would not eat with the others, would not bow to the city's gods. King Antiochus called himself Epiphanes — “God made manifest” — and outlawed the Sabbath, the Torah and circumcision on pain of death. In Modi'in, an old priest, Mattathias, was ordered to bow to an altar in the village square. He tore it down, and walked into the hills with his five sons. The third, Judah, earned a nickname: Maccabee. The Hammer. Farmers against war elephants. Three years later, to the day, Judah lit the lamp in Jerusalem. We still light it in the window, facing the street.`],
+      visual: `A hill village, an altar of new stone in the square, a Seleucid officer in bronze. An old man's hands on the altar; it goes over. Five figures climbing into olive terraces at dusk. Night in a mountain pass — torches, the dark bulk of an elephant that cannot turn. Then a lamp lit in a vast dark hall; match-cut to a hanukkiah in a São Paulo window, and the street beyond it lighting up.`,
+      emotion: `Nerve. Farmers who choose the night and the hills.`,
+      refs: `1 Maccabees 1–4; 2 Maccabees 6 (the decrees, the altar). Rededication 25 Kislev 164 BCE, “three years to the day” (1 Macc 4:52–54). Pirsumei nisa — lighting toward the street: Shabbat 21b.`
+    },
+    he: {
+      title: 'מודיעין, יהודה · 167 לפנה״ס', sub: 'מתתיהו ויהודה המכבי',
+      guide: [`עבור היוונים הבעיה הייתה פשוטה יותר: היהודים היו העם שלא הצטרף — לא אכל עם האחרים, לא השתחווה לאלי העיר. המלך אנטיוכוס קרא לעצמו אפיפנס — ״האל שהתגלה״ — ואסר על השבת, התורה והמילה בעונש מוות. במודיעין, כוהן זקן, מתתיהו, נצטווה להשתחוות למזבח בכיכר הכפר. הוא ניתץ אותו, ויצא להרים עם חמשת בניו. השלישי, יהודה, קיבל כינוי: מכבי. הפטיש. חקלאים מול פילי מלחמה. שלוש שנים אחר כך, בדיוק באותו יום, יהודה הדליק את המנורה בירושלים. אנחנו עדיין מדליקים אותה בחלון, מול הרחוב.`],
+      visual: `כפר על גבעה, מזבח מאבן חדשה בכיכר, קצין סלאוקי בברונזה. ידיים של זקן על המזבח; הוא נופל. חמש דמויות מטפסות אל טרסות זיתים בדמדומים. לילה במעבר הרים — לפידים, הגוש האפל של פיל שאינו יכול להסתובב. אחר כך מנורה נדלקת באולם ענק וחשוך; מאץ׳ קאט לחנוכייה בחלון בסאו פאולו, והרחוב שמאחוריה נדלק.`,
+      emotion: `תעוזה. חקלאים שבוחרים בלילה ובהרים.`,
+      refs: `מקבים א׳ 1–4; מקבים ב׳ 6 (הגזירות, המזבח). חנוכת המקדש מחדש, כ״ה בכסלו 164 לפנה״ס, ״שלוש שנים בדיוק״ (מקבים א׳ 4:52–54). פרסומי ניסא — הדלקה מול הרחוב: שבת כ״א ע״ב.`
+    }
+  },
+  { n: 5, time: '3:08–3:53', words: 99,
+    en: {
+      title: 'Barcelona · 1263', sub: 'Nachmanides',
+      guide: [`In the Middle Ages the hatred acquired a theology — the Jews had killed God — and from it came the blood libel, the poisoned wells, the yellow badge, the expulsions. In Barcelona, King James of Aragon ordered the greatest rabbi in Spain, Nachmanides, to debate the Church before the court, and granted him one thing: freedom to speak. He spoke for four days. The king said he had never heard an unjust cause so nobly defended. And exiled him. Nachmanides went to Jerusalem, found two Jews living in the ruins, and built a synagogue. It is open tonight.`],
+      visual: `A Gothic hall, the king on a raised chair, friars on one side, one old man standing alone on the other, a single candle on his lectern. Four dawns through the same window. A purse of coins placed in his hand; the same hand, later, holding a sealed order of exile. A ship's rail; Jerusalem in ruins; two men dyeing cloth in a courtyard; a wall rising. Last shot: the Ramban synagogue tonight, a lamp inside.`,
+      emotion: `Dignity under a rigged game — and the quiet revenge of building.`,
+      refs: `Disputation of Barcelona, 20–27 July 1263, before James I of Aragon, against the convert friar Pablo Christiani; Nachmanides' own Hebrew account (Vikuach) gives the 300 solidi and the king's remark; the Latin protocol disagrees on the outcome. Exile 1265; Jerusalem 1267, letter to his son (“two brothers, dyers”). The Ramban Synagogue in the Jewish Quarter, restored 1967.`
+    },
+    he: {
+      title: 'ברצלונה · 1263', sub: 'הרמב״ן',
+      guide: [`בימי הביניים קיבלה השנאה תיאולוגיה — היהודים הרגו את האל — וממנה באו עלילת הדם, הבארות המורעלות, הטלאי הצהוב, הגירושים. בברצלונה, המלך חיימה מאראגון ציווה על גדול הרבנים בספרד, הרמב״ן, להתווכח עם הכנסייה בפני החצר, והעניק לו דבר אחד: חופש דיבור. הוא דיבר ארבעה ימים. המלך אמר שמעולם לא שמע טענה לא צודקת שהוגנה באצילות כזו. וגירש אותו. הרמב״ן הגיע לירושלים, מצא שני יהודים חיים בין החורבות, ובנה בית כנסת. הוא פתוח הלילה.`],
+      visual: `אולם גותי, המלך על כיסא מוגבה, נזירים בצד אחד, זקן אחד עומד לבדו בצד השני, נר יחיד על הדוכן שלו. ארבעה שחרים דרך אותו חלון. צרור מטבעות מונח בידו; אותה יד, מאוחר יותר, מחזיקה צו גירוש חתום. מעקה של ספינה; ירושלים בחורבותיה; שני גברים צובעים בד בחצר; קיר עולה. שוט אחרון: בית הכנסת של הרמב״ן הלילה, מנורה בפנים.`,
+      emotion: `כבוד במשחק מכור — והנקמה השקטה של הבנייה.`,
+      refs: `ויכוח ברצלונה, 20–27 ביולי 1263, בפני חיימה הראשון מאראגון, מול הנזיר המומר פבלו כריסטיאני; החיבור העברי של הרמב״ן עצמו (הוויכוח) מציין את 300 הסולידי ואת דברי המלך; הפרוטוקול הלטיני חולק על התוצאה. גירוש 1265; ירושלים 1267, מכתב לבנו (״שני אחים, צבעים״). בית הכנסת רמב״ן ברובע היהודי, שוחזר ב-1967.`
+    }
+  },
+  { n: 6, time: '3:53–4:38', words: 81,
+    en: {
+      title: 'Lisbon → Istanbul · 1536–1556', sub: 'Gracia Nasi',
+      guide: [`Then the hatred stopped asking what a Jew believed, and began asking what he was born. In Lisbon, a widow of twenty-six, Gracia Nasi, banker to kings and secretly a Jew, turned her ships into a road out: Antwerp, Venice, Ferrara, Istanbul. Thousands passed along it. When the Pope burned twenty-four conversos alive at Ancona, in 1556, she closed the port to every Jewish merchant in the Ottoman Empire. No one had ever done that before. One woman, against the Pope.`],
+      visual: `A genealogy on an Inquisition desk, names traced for “blood”. A young widow in black at a ledger; her seal in wax; a map with a thread Lisbon–Antwerp–Venice–Ferrara–Istanbul, lanterns moving along it at night. Ancona: an edict nailed to a door, smoke over the harbour. Istanbul: she dictates, and in the port dozens of ships turn away from Ancona's quay.`,
+      emotion: `Cold intelligence used as mercy. The first time money said no.`,
+      refs: `Limpieza de sangre statutes from Toledo 1449. Gracia (Beatriz de Luna, 1510–1569); the papal debt and the Ferrara–Istanbul route per Cecil Roth. Ancona 1556: 24 (some say 25) burned; the boycott was real and unprecedented but collapsed within about a year — the narration claims the act, not the victory.`
+    },
+    he: {
+      title: 'ליסבון ← איסטנבול · 1536–1556', sub: 'גרציה נשיא',
+      guide: [`אחר כך השנאה הפסיקה לשאול במה יהודי מאמין, והתחילה לשאול מה הוא מלידה. בליסבון, אלמנה בת עשרים ושש, גרציה נשיא, בנקאית של מלכים ויהודייה בסתר, הפכה את ספינותיה לדרך החוצה: אנטוורפן, ונציה, פרארה, איסטנבול. אלפים עברו בה. כשהאפיפיור שרף עשרים וארבעה אנוסים חיים באנקונה, ב-1556, היא סגרה את הנמל בפני כל סוחר יהודי באימפריה העות׳מאנית. איש לא עשה זאת לפני כן. אישה אחת, מול האפיפיור.`],
+      visual: `אילן יוחסין על שולחן האינקוויזיציה, שמות שנבדקים בשל ״דם״. אלמנה צעירה בשחור מול ספר חשבונות; החותם שלה בשעווה; מפה עם חוט ליסבון–אנטוורפן–ונציה–פרארה–איסטנבול, פנסים נעים לאורכו בלילה. אנקונה: צו ממוסמר לדלת, עשן מעל הנמל. איסטנבול: היא מכתיבה, ובנמל עשרות ספינות פונות מהרציף של אנקונה.`,
+      emotion: `אינטליגנציה קרה בשירות הרחמים. הפעם הראשונה שהכסף אמר לא.`,
+      refs: `חוקי טוהר הדם (Limpieza de sangre) מטולדו 1449. גרציה (ביאטריס דה לונה, 1510–1569); החוב האפיפיורי והדרך פרארה–איסטנבול לפי ססיל רות. אנקונה 1556: 24 (יש אומרים 25) נשרפו; החרם היה אמיתי וחסר תקדים אבל קרס בתוך כשנה — הקריינות טוענת למעשה, לא לניצחון.`
+    }
+  },
+  { n: 7, time: '4:38–5:18', words: 92,
+    en: {
+      title: 'Paris · 1895', sub: 'Alfred Dreyfus and Theodor Herzl',
+      guide: [`In the nineteenth century the hatred put on a lab coat: science had discovered that the Jew was a race. In Paris, the most modern army in Europe forged a note, and Captain Alfred Dreyfus, the only Jew on the General Staff, was stripped of his rank before twenty thousand people screaming Death to the Jews. He shouted back: I am innocent. In the crowd, a reporter from Vienna, Theodor Herzl, heard the scream, went home, and wrote eighty pages: The Jewish State. Fifty years later, the eighty pages were a country.`],
+      visual: `Archival engraving of the degradation; reconstruction: braid torn from a uniform, a sabre snapped over a knee, the roar beyond the railings. Dreyfus's mouth, shouting. In the crowd, a bearded man with a notebook, not writing. A desk in Vienna, a title page: Der Judenstaat. Archival: Tel Aviv, 14 May 1948, Ben-Gurion under Herzl's portrait.`,
+      emotion: `Humiliation turned, in one man's head, into a plan.`,
+      refs: `Degradation 5 January 1895; contemporary estimates of 4,000 troops inside and ~20,000 outside. Marr's Antisemitismus (1879) is the “lab coat”. Exoneration 1906. Der Judenstaat, February 1896 (c. 80 pages in the first edition). Independence 14 May 1948.`
+    },
+    he: {
+      title: 'פריז · 1895', sub: 'אלפרד דרייפוס ותיאודור הרצל',
+      guide: [`במאה התשע-עשרה השנאה לבשה חלוק מעבדה: המדע גילה שהיהודי הוא גזע. בפריז, הצבא המודרני ביותר באירופה זייף פתק, וסרן אלפרד דרייפוס, היהודי היחיד במטה הכללי, נשלל מדרגתו מול עשרים אלף איש שצרחו מוות ליהודים. הוא צעק בחזרה: אני חף מפשע. בקהל, כתב מווינה, תיאודור הרצל, שמע את הצרחה, חזר הביתה וכתב שמונים עמודים: מדינת היהודים. חמישים שנה אחר כך, שמונים העמודים היו למדינה.`],
+      visual: `תחריט ארכיוני של טקס ההשפלה; שחזור: עיטורים נתלשים ממדים, חרב נשברת על ברך, השאגה מעבר לגדר. הפה של דרייפוס, צועק. בקהל, גבר מזוקן עם פנקס, לא כותב. שולחן בווינה, דף שער: Der Judenstaat. ארכיון: תל אביב, 14 במאי 1948, בן-גוריון מתחת לדיוקן של הרצל.`,
+      emotion: `השפלה שהפכה, בראשו של אדם אחד, לתוכנית.`,
+      refs: `טקס ההשפלה 5 בינואר 1895; הערכות בנות הזמן מדברות על 4,000 חיילים בפנים וכ-20,000 בחוץ. Antisemitismus של מאר (1879) הוא ״חלוק המעבדה״. זיכוי 1906. Der Judenstaat, פברואר 1896 (כ-80 עמודים במהדורה הראשונה). העצמאות 14 במאי 1948.`
+    }
+  },
+  { n: 8, time: '5:18–5:58', words: 86,
+    en: {
+      title: 'Kishinev → Galilee · 1903–1909', sub: 'The Shomrim',
+      guide: [`In Russia, the Tsar's police forged a book — The Protocols of the Elders of Zion — which said the Jews ruled the world, and let the mob loose in Kishinev. Forty-nine dead in two days, with the police watching. This time the Jews did not wait. They bought revolvers. And in 1909, on a hill in the Galilee, ten young men saddled horses and founded the first Jewish guard in nineteen centuries: HaShomer. The Watchman. The Watchman became the Haganah. The Haganah became an army.`],
+      visual: `A printing press; a title page in Cyrillic. Archival photographs of Kishinev after the pogrom — broken windows, feathers in the street, policemen with folded arms; no bodies. A cellar, young men checking revolvers. Then light: a ridge in the Galilee at dusk, ten riders, kaffiyehs, a rifle across a saddle. Match-cut: a patrol jeep's headlights on the same ridge tonight.`,
+      emotion: `The moment the Jews stop waiting.`,
+      refs: `Kishinev, Easter 1903: 49 dead. Protocols first serialised in Znamya, Aug–Sep 1903; Okhrana authorship is the standard attribution. Gomel, September 1903: first organised self-defence. HaShomer founded April 1909 (Bar-Giora 1907); Haganah 1920; IDF 1948.`
+    },
+    he: {
+      title: 'קישינב ← הגליל · 1903–1909', sub: 'השומרים',
+      guide: [`ברוסיה, משטרת הצאר זייפה ספר — הפרוטוקולים של זקני ציון — שאמר שהיהודים שולטים בעולם, ושיסתה את ההמון בקישינב. ארבעים ותשעה מתים ביומיים, והמשטרה מביטה. הפעם היהודים לא חיכו. הם קנו אקדחים. וב-1909, על גבעה בגליל, עשרה צעירים אוכפו סוסים וייסדו את המשמר היהודי הראשון מזה תשע-עשרה מאות: השומר. השומר הפך להגנה. ההגנה הפכה לצבא.`],
+      visual: `מכונת דפוס; דף שער בקירילית. תצלומי ארכיון של קישינב אחרי הפוגרום — חלונות שבורים, נוצות ברחוב, שוטרים בידיים שלובות; בלי גופות. מרתף, צעירים בודקים אקדחים. אחר כך אור: רכס בגליל בדמדומים, עשרה רוכבים, כאפיות, רובה על האוכף. מאץ׳ קאט: פנסי ג׳יפ סיור על אותו רכס הלילה.`,
+      emotion: `הרגע שבו היהודים מפסיקים לחכות.`,
+      refs: `קישינב, פסחא 1903: 49 מתים. הפרוטוקולים פורסמו לראשונה בהמשכים ב-Znamya, אוגוסט–ספטמבר 1903; הייחוס לאוכרנה הוא המקובל. הומל, ספטמבר 1903: הגנה עצמית מאורגנת ראשונה. השומר נוסד באפריל 1909 (בר-גיורא 1907); ההגנה 1920; צה״ל 1948.`
+    }
+  },
+  { n: 9, time: '5:58–6:48', words: 100,
+    en: {
+      title: 'Warsaw · Sobibor · the forests · 1943', sub: 'Anielewicz, Pechersky, the Bielski brothers',
+      guide: [
+        `And then the hatred bought a railway.`,
+        { silence: `(silence — image only)` },
+        `In Warsaw, Mordechai Anielewicz, twenty-three, with five hundred fighters and pistols, held the ghetto for a month against an army. At Sobibor, Alexander Pechersky led the prisoners who killed their guards and ran for the trees. In the forests of Belarus, three brothers — Tuvia, Asael and Zus Bielski — took in everyone: the old, the sick, the children. Twelve hundred walked out alive. Seventeen years later, the man who ran the trains sat in a glass box in Jerusalem, and a hundred and eleven survivors told the world.`
+      ],
+      visual: `A railway timetable, destinations in Fraktur. Then silence and image only, ten seconds: rails, a signal, snow. Warsaw: Stroop Report photographs chosen for defiance — fighters, smoke over the wall; never the famous boy. A calendar: three days crossed out, then a month. Sobibor: a clock at four; a workshop door; three hundred people running for a treeline, in silence; pines planted over bare ground. Naliboki: dugouts, a kitchen, a school, a column walking out in July light. Archival: the glass booth in Jerusalem; a witness's face.`,
+      emotion: `The quietest scene in the film. No commentary; the facts do the work.`,
+      refs: `Warsaw: 19 April – 16 May 1943; Stroop's three-day plan; Anielewicz's last letter, 23 April. Sobibor, 14 October 1943: eleven SS killed (some say twelve), ~300 escaped, 50–60 survived; camp razed and planted. Bielski: ~1,200 at liberation, July 1944. Eichmann: 111 witnesses, 1961.`
+    },
+    he: {
+      title: 'ורשה · סוביבור · היערות · 1943', sub: 'אנילביץ׳, פצ׳רסקי, האחים בילסקי',
+      guide: [
+        `ואז השנאה קנתה רכבת.`,
+        { silence: `(שקט — תמונה בלבד)` },
+        `בוורשה, מרדכי אנילביץ׳, בן עשרים ושלוש, עם חמש מאות לוחמים ואקדחים, החזיק את הגטו חודש מול צבא. בסוביבור, אלכסנדר פצ׳רסקי הוביל את האסירים שהרגו את שומריהם וברחו אל העצים. ביערות בלארוס, שלושה אחים — טוביה, אסאל וזוס בילסקי — קיבלו את כולם: הזקנים, החולים, הילדים. אלף ומאתיים יצאו ברגל בחיים. שבע-עשרה שנה אחר כך, האיש שהפעיל את הרכבות ישב בתא זכוכית בירושלים, ומאה ואחד-עשר ניצולים סיפרו לעולם.`
+      ],
+      visual: `לוח זמנים של רכבות, יעדים בפרקטור. אחר כך שקט ותמונה בלבד, עשר שניות: פסים, רמזור, שלג. ורשה: תצלומי דוח שטרופ שנבחרו בשל ההתרסה — לוחמים, עשן מעל החומה; אף פעם לא הילד המפורסם. לוח שנה: שלושה ימים מחוקים, ואז חודש. סוביבור: שעון על ארבע; דלת של בית מלאכה; שלוש מאות איש רצים אל קו העצים, בשקט; אורנים נטועים על אדמה חשופה. נליבוקי: בונקרים, מטבח, בית ספר, טור שיוצא ברגל באור של יולי. ארכיון: תא הזכוכית בירושלים; פניו של עד.`,
+      emotion: `הסצנה השקטה ביותר בסרט. בלי פרשנות; העובדות עושות את העבודה.`,
+      refs: `ורשה: 19 באפריל – 16 במאי 1943; התוכנית של שטרופ לשלושה ימים; המכתב האחרון של אנילביץ׳, 23 באפריל. סוביבור, 14 באוקטובר 1943: אחד-עשר אנשי אס-אס נהרגו (יש אומרים שנים-עשר), כ-300 נמלטו, 50–60 ניצלו; המחנה נהרס וניטע. בילסקי: כ-1,200 בשחרור, יולי 1944. אייכמן: 111 עדים, 1961.`
+    }
+  },
+  { n: 10, time: '6:48–7:33', words: 102,
+    en: {
+      title: 'Entebbe · Moscow · Addis Ababa · 1976–1991', sub: 'Yoni Netanyahu, Natan Sharansky, the Fourteen Thousand',
+      guide: [`After the war the old word became unsayable. The hatred found another: Zionist. At Entebbe, Uganda, the hijackers separated the Jews from the other passengers. Ninety minutes after the first Israeli plane landed in the dark, the hostages were in the air; the commander, Yoni Netanyahu, did not come home. In Moscow, Natan Sharansky, jailed for wanting to leave, told the court: Next year in Jerusalem. Nine years in the Gulag — and he kept it. From Ethiopia, in 1991, fourteen thousand Jews were lifted out in thirty-six hours, on planes with the seats torn out. Babies were born in the air.`],
+      visual: `A terminal at night; a hijacker reading passports, one group moved aside. A Hercules landing without lights; a black Mercedes rolling off the ramp; bare feet running up a ramp. Archival: Ben Gurion, 4 July 1976. A Soviet courtroom; a small man with a wide grin. Archival: the Glienicke Bridge, a figure zigzagging across the line. Archival: a 747 with no seats, people on the floor, an old man kissing the tarmac.`,
+      emotion: `Three different kinds of courage: the soldier, the prisoner, the pilot.`,
+      refs: `Entebbe: 27 June – 4 July 1976; 102 of 106 hostages rescued; Yoni Netanyahu the only soldier killed. Sharansky tried July 1978; freed 11 February 1986 (the zigzag is his own account). Operation Solomon, 24–25 May 1991: 14,325 people, 35 flights; the 1,088-passenger 747 holds the Guinness record.`
+    },
+    he: {
+      title: 'אנטבה · מוסקבה · אדיס אבבה · 1976–1991', sub: 'יוני נתניהו, נתן שרנסקי, ארבעה-עשר האלף',
+      guide: [`אחרי המלחמה, המילה הישנה נעשתה בלתי נאמרת. השנאה מצאה אחרת: ציוני. באנטבה, אוגנדה, החוטפים הפרידו את היהודים משאר הנוסעים. תשעים דקות אחרי שהמטוס הישראלי הראשון נחת בחושך, בני הערובה היו באוויר; המפקד, יוני נתניהו, לא חזר הביתה. במוסקבה, נתן שרנסקי, שנכלא כי רצה לעזוב, אמר לבית המשפט: לשנה הבאה בירושלים. תשע שנים בגולאג — והוא עמד במילתו. מאתיופיה, ב-1991, ארבעה-עשר אלף יהודים הוטסו בשלושים ושש שעות, במטוסים שמושביהם נתלשו. תינוקות נולדו באוויר.`],
+      visual: `טרמינל בלילה; חוטף קורא דרכונים, קבוצה אחת מוזזת הצידה. הרקולס נוחת בלי אורות; מרצדס שחורה מתגלגלת מהרמפה; רגליים יחפות רצות במעלה רמפה. ארכיון: נתב״ג, 4 ביולי 1976. אולם בית משפט סובייטי; איש קטן עם חיוך רחב. ארכיון: גשר גליניקה, דמות חוצה את הקו בזיגזג. ארכיון: 747 בלי מושבים, אנשים על הרצפה, זקן מנשק את המסלול.`,
+      emotion: `שלושה סוגי אומץ שונים: החייל, האסיר, הטייס.`,
+      refs: `אנטבה: 27 ביוני – 4 ביולי 1976; 102 מתוך 106 בני ערובה חולצו; יוני נתניהו החייל היחיד שנהרג. שרנסקי נשפט ביולי 1978; שוחרר ב-11 בפברואר 1986 (הזיגזג הוא עדותו שלו). מבצע שלמה, 24–25 במאי 1991: 14,325 איש, 35 טיסות; מטוס ה-747 עם 1,088 הנוסעים מחזיק בשיא גינס.`
+    }
+  },
+  { n: 11, time: '7:33–8:18', words: 85,
+    en: {
+      title: 'Nir Am · Tel Aviv · everywhere · 2023', sub: 'Inbal Rabin-Lieberman and Noa Argamani',
+      guide: [`Until one Shabbat morning, on Simchat Torah. And a week later, on every screen, every costume at once — the blood, the plot, the new word. At Nir Am, Inbal Rabin-Lieberman, twenty-five, opened the armory before the army arrived, and the kibbutz lost no one. Three hundred thousand came home on any plane that would take them. Eight months later, Noa Argamani came out of Gaza alive, into her father's arms. And where the posters were torn down, someone put them back up. Every morning.`],
+      visual: `6:29 a.m., a siren, the Negev sky at dawn — nothing more. A steel door, keys, a rack of rifles, twelve men taking positions along a fence; no enemy shown. Archival: Ben Gurion arrivals, duffel bags, strangers hugging. Archival: a synagogue with police outside; a hand tearing a poster from a lamp post. Archival: Noa Argamani stepping off a helicopter into her father's arms. The lamp post again, dawn: a hand taping a new poster over the scraps.`,
+      emotion: `Mourning and stubbornness. People, not operations.`,
+      refs: `Nir Am: zero casualties; Rabin-Lieberman's role widely reported (avoid “the only kibbutz”). Reservists c. 300,000 (IDF). Noa Argamani rescued 8 June 2024. Incident surges: ADL, CST, CRIF. No footage of October 7 itself. Verify hostage status before production.`
+    },
+    he: {
+      title: 'ניר עם · תל אביב · בכל מקום · 2023', sub: 'ענבל רבין-ליברמן ונועה ארגמני',
+      guide: [`עד בוקר שבת אחד, בשמחת תורה. ושבוע אחר כך, בכל מסך, כל התחפושות יחד — הדם, הקנוניה, המילה החדשה. בניר עם, ענבל רבין-ליברמן, בת עשרים וחמש, פתחה את הנשקייה לפני שהצבא הגיע, והקיבוץ לא איבד איש. שלוש מאות אלף חזרו הביתה בכל מטוס שהסכים לקחת אותם. שמונה חודשים אחר כך, נועה ארגמני יצאה מעזה בחיים, אל זרועות אביה. ובמקום שבו הכרזות נתלשו, מישהו תלה אותן מחדש. כל בוקר.`],
+      visual: `6:29 בבוקר, אזעקה, שמי הנגב עם שחר — לא יותר. דלת פלדה, מפתחות, מתקן רובים, שנים-עשר גברים תופסים עמדות לאורך גדר; לא רואים אויב. ארכיון: נחיתות בנתב״ג, תיקי צד, זרים מתחבקים. ארכיון: בית כנסת עם שוטרים בחוץ; יד קורעת כרזה מעמוד תאורה. ארכיון: נועה ארגמני יורדת ממסוק אל זרועות אביה. שוב עמוד התאורה, שחר: יד מדביקה כרזה חדשה על השאריות.`,
+      emotion: `אבל ועקשנות. אנשים, לא מבצעים.`,
+      refs: `ניר עם: אפס נפגעים; תפקידה של רבין-ליברמן דווח רבות (להימנע מ״הקיבוץ היחיד״). מילואימניקים כ-300,000 (צה״ל). נועה ארגמני חולצה ב-8 ביוני 2024. זינוק באירועים: ADL, CST, CRIF. בלי צילומים מ-7 באוקטובר עצמו. לבדוק את מצב החטופים לפני ההפקה.`
+    }
+  },
+  { n: 12, time: '8:18–8:43', words: 8,
+    en: {
+      title: 'Online · today', sub: 'The ones fighting now',
+      guide: [`And now, it looks like this. Not generals.`],
+      visual: `A phone screen, vertical. Fifteen to twenty seconds of real clips, cut fast, names on screen: a singer walking through Auschwitz; an actress holding a thin book; an Arab Israeli filming from the north; an Emirati speaking Arabic, subtitled; a non-Jewish musician on a stage in Israel. No narration over their voices.`,
+      emotion: `Lightness after weight. The answer is alive and ordinary.`,
+      refs: `See production notes for the shortlist and the verification rule.`
+    },
+    he: {
+      title: 'ברשת · היום', sub: 'אלה שנלחמים עכשיו',
+      guide: [`ועכשיו, זה נראה ככה. לא גנרלים.`],
+      visual: `מסך טלפון, אנכי. חמש-עשרה עד עשרים שניות של קליפים אמיתיים, בעריכה מהירה, עם שמות על המסך: זמרת הולכת באושוויץ; שחקנית מחזיקה ספר דק; ערבי ישראלי מצלם מהצפון; אמירתי מדבר ערבית, עם כתוביות; מוזיקאי לא-יהודי על במה בישראל. בלי קריינות מעל הקולות שלהם.`,
+      emotion: `קלילות אחרי כובד. התשובה חיה ורגילה.`,
+      refs: `ראו הערות הפקה לרשימה המצומצמת ולכלל האימות.`
+    }
+  },
+  { n: 13, time: '8:43–9:03', words: 31, wide: true,
+    en: {
+      title: 'The sky again', sub: 'Closing — the answer',
+      guide: [
+        `Twain asked what the secret was.`,
+        `There is no secret. There are names.`,
+        `In every generation, they rise up against us —`,
+        `and in every generation, someone rises.`,
+        `Am Yisrael Chai.`
+      ],
+      visual: `The night sky of the opening. But now each star that lights is a face: Shifra, Esther, Judah, Nachmanides, Gracia, Dreyfus, Herzl, the Watchman, Anielewicz, Pechersky, the Bielskis, Yoni, Sharansky, Inbal, Noa — the sky filling back up. Below them, a street at Friday dusk, windows lighting one after another. Final card over the stars.`,
+      emotion: `Fullness. The question answered.`,
+      refs: `Vehi She'amda, sung in full. Final card: IN EVERY GENERATION · בכל דור ודור · SMV emblem · sixmillionvoices.org.`
+    },
+    he: {
+      title: 'שוב השמיים', sub: 'סיום — התשובה',
+      guide: [
+        `טוויין שאל מה הסוד.`,
+        `אין סוד. יש שמות.`,
+        `בכל דור ודור עומדים עלינו —`,
+        `ובכל דור ודור, מישהו קם.`,
+        `עם ישראל חי.`
+      ],
+      visual: `שמי הלילה של הפתיחה. אבל עכשיו כל כוכב שנדלק הוא פנים: שפרה, אסתר, יהודה, הרמב״ן, גרציה, דרייפוס, הרצל, השומר, אנילביץ׳, פצ׳רסקי, בני בילסקי, יוני, שרנסקי, ענבל, נועה — השמיים מתמלאים שוב. מתחתם, רחוב בדמדומי יום שישי, חלונות נדלקים בזה אחר זה. כרטיס סיום מעל הכוכבים.`,
+      emotion: `מלאות. השאלה נענתה.`,
+      refs: `והיא שעמדה, בשירה מלאה. כרטיס סיום: IN EVERY GENERATION · בכל דור ודור · סמל SMV · sixmillionvoices.org.`
+    }
+  }
+];
+
+const ENDCARD = {
+  en: { h: 'IN EVERY GENERATION', line: 'בְּכָל דּוֹר וָדוֹר', p: 'Twain asked what the secret was. There is no secret. There are names.' },
+  he: { h: 'בְּכָל דּוֹר וָדוֹר', line: 'IN EVERY GENERATION', p: 'טוויין שאל מה הסוד. אין סוד. יש שמות.' }
+};
+
+const CHAPTERS = [
+  { name: 'פתיחה — השאלה', period: 'שמי לילה · 1899', sum: 'הציטוט של מארק טוויין: היהודים הם אחוז אחד מהאנושות, האימפריות הגדולות נעלמו והם נשארו. מהו סוד אלמותם? הקריינות מציגה את הסרט כתשובה לשאלה. בתמונה, כוכבים הופכים לאימפריות וכבים, עד שנשאר נר אחד בחלון.' },
+  { name: 'שפרה, פועה, משה', period: 'מצרים · בערך 1300 לפנה״ס', sum: 'פרעה חדש מחליט שהעברים רבים מדי: לבנים, ואז הנילוס לכל בן שנולד. המיילדות שפרה ופועה לא מבצעות את הפקודה ומשקרות למלך בפניו. ארבעים שנה אחר כך משה חוזר עם ״שלח את עמי״.' },
+  { name: 'אסתר', period: 'שושן, פרס · בערך 470 לפנה״ס', sum: 'השנאה לומדת לכתוב: המן מנסח צו נגד כל יהודי האימפריה, ביום אחד. אסתר, יהודייה שאיש בחצר לא יודע עליה, צמה שלושה ימים ונכנסת למלך בלי הזמנה, במחיר סכנת מוות. המן נתלה, ועד היום ילדים מטביעים את שמו ברעש.' },
+  { name: 'מתתיהו ויהודה המכבי', period: 'מודיעין, יהודה · 167 לפנה״ס', sum: 'אנטיוכוס אוסר בעונש מוות על שבת, תורה ומילה. הכוהן הזקן מתתיהו נדרש להשתחוות למזבח, מנתץ אותו ויוצא להרים עם חמשת בניו. חקלאים מול פילי מלחמה, ואחרי שלוש שנים יהודה מדליק את המנורה בירושלים.' },
+  { name: 'הרמב״ן', period: 'ברצלונה · 1263', sum: 'בימי הביניים השנאה מקבלת תיאולוגיה: עלילת הדם, הבארות המורעלות, הטלאי הצהוב, הגירושים. המלך מצווה על הרמב״ן להתווכח עם הכנסייה. הוא מדבר ארבעה ימים, מגורש, מגיע לירושלים ובונה בית כנסת שפתוח עד היום.' },
+  { name: 'גרציה נשיא', period: 'ליסבון ← איסטנבול · 1536–1556', sum: 'השנאה מתחילה לשאול מה היהודי מלידה. אלמנה צעירה, בנקאית של מלכים ויהודייה בסתר, הופכת את ספינותיה לדרך החוצה לאלפים. כשהאפיפיור שורף 24 אנוסים באנקונה, היא סוגרת את הנמל בפני כל סוחר יהודי באימפריה העות׳מאנית.' },
+  { name: 'אלפרד דרייפוס ותיאודור הרצל', period: 'פריז · 1895', sum: 'השנאה לובשת חלוק מעבדה: היהודי כגזע. דרייפוס, היהודי היחיד במטה הכללי, נשלל מדרגתו מול המון שצורח מוות ליהודים. הרצל, כתב מווינה שעומד בקהל, כותב את ״מדינת היהודים״, וחמישים שנה אחר כך היא למדינה.' },
+  { name: 'פרעות קישינב', period: 'קישינב ← הגליל · 1903–1909', sum: 'משטרת הצאר מזייפת את הפרוטוקולים של זקני ציון, ובקישינב נהרגים 49 יהודים. הפעם היהודים לא מחכים: הם קונים אקדחים, וב-1909 עשרה צעירים מייסדים את השומר, שהופך להגנה ואחר כך לצבא.' },
+  { name: 'אנילביץ׳, פצ׳רסקי, האחים בילסקי', period: 'ורשה · סוביבור · היערות · 1943', sum: 'הסצנה השקטה בסרט, עם עשר שניות של תמונה בלבד. המרד בגטו ורשה, הבריחה מסוביבור, והאחים בילסקי, שאיתם 1,200 יוצאים בחיים מהיערות. בסוף, האיש שהפעיל את הרכבות בתא זכוכית בירושלים, ו-111 ניצולים מספרים לעולם.' },
+  { name: 'יוני נתניהו, נתן שרנסקי, ארבעה-עשר האלף', period: 'אנטבה · מוסקבה · אדיס אבבה · 1976–1991', sum: 'השנאה מוצאת מילה חדשה: ציוני. שלושה סוגי אומץ: מבצע אנטבה, שממנו יוני נתניהו לא חוזר; שרנסקי, תשע שנים בגולאג על הרצון לעזוב; ו-14 אלף יהודי אתיופיה שהוטסו ב-36 שעות.' },
+  { name: 'ענבל רבין-ליברמן ונועה ארגמני', period: 'ניר עם · תל אביב · בכל מקום · 2023', sum: 'בוקר שמחת תורה, ושבוע אחר כך כל התחפושות יחד בכל מסך. ענבל פותחת את הנשקייה בניר עם והקיבוץ לא מאבד איש. 300 אלף חוזרים הביתה, נועה יוצאת מעזה בחיים, ומישהו תולה מחדש את הכרזות שנתלשו. בלי צילומים מהטבח עצמו.' },
+  { name: 'אלה שנלחמים עכשיו', period: 'ברשת · היום', sum: '״לא גנרלים״. 15–20 שניות של קליפים אמיתיים בעריכה מהירה, עם שמות על המסך: אנשים שנלחמים היום מהטלפון. בלי קריינות מעל הקולות שלהם.' },
+  { name: 'סיום — התשובה', period: 'שוב השמיים', sum: '״אין סוד. יש שמות.״ השמיים מהפתיחה מתמלאים בפנים של כל הגיבורים, ומתחתם חלונות נדלקים בדמדומי יום שישי. הסרט נסגר ב״עם ישראל חי״ ובשירת ״והיא שעמדה״.' }
+];
+
+// The working draft: only the chapters we have gone over so far
+const UPDATED = [
+  { n: 1, time: '0:00–0:55', words: 126,
+    he: {
+      title: 'מארק טוויין · 1899', sub: 'פתיחה — השאלה',
+      guide: [
+        { speaker: 'מארק טוויין' },
+        `״אם הנתונים הסטטיסטיים נכונים, היהודים מהווים אחוז אחד בלבד מהמין האנושי. זה מעלה על הדעת ענן עמום וקלוש של אבק כוכבים, האובד בזוהר שביל החלב. למען האמת, בקושי היינו אמורים לשמוע על היהודי.״`,
+        `״המצרי, הבבלי והפרסי קמו, מילאו את העולם בקול ובהדר, ואז דעכו לכדי חומר של חלומות וחלפו; היווני והרומאי באו אחריהם, הקימו רעש גדול, ואינם עוד. היהודי ראה את כולם. הכול בן תמותה, מלבד היהודי. מהו סוד אלמותו?״`,
+        { speaker: 'מדריך' },
+        `מארק טוויין כתב את זה ב-1899.`,
+        `לא היה לו מושג מה עומד לבוא.`,
+        `בכל דור ודור עומדים עלינו.`,
+        `הסרט הזה הוא התשובה לשאלה שלו.`
+      ],
+      visual: `הדמיה של מארק טוויין אומר את הדברים, עם קאטים שמלווים את מה שהוא אומר: כוכבים ואימפריות שנעלמות. תוך כדי הקאטים נכנסים למצרים, וממשיכים משם לסצנה של מצרים.`
+    }
+  }
+];
+
+// Same page grouping as the PDF
+const PAGES = [[1], [2, 3], [4, 5], [6, 7], [8, 9], [10, 11], [12], [13]];
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) {
+    // In Hebrew, keep number ranges such as 1536–1556 in reading order
+    e.textContent = document.documentElement.lang === 'he'
+      ? String(text).replace(/\d[\d,:]*–\d[\d,:]*/g, m => `\u2066${m.replace('–', '\u2060–\u2060')}\u2069`)
+      : text;
+  }
+  return e;
+}
+
+function note(cls, label, text) {
+  const n = el('div', 'note ' + cls);
+  n.append(el('div', 'label', label), el('p', '', text));
+  return n;
+}
+
+function renderScene(s, lang) {
+  const t = s[lang], ui = UI[lang];
+  const sec = el('section', 'scene' + (s.wide ? ' wide' : ''));
+  sec.append(el('div', 'scene-no', `${ui.scene} ${String(s.n).padStart(2, '0')}`));
+
+  const head = el('div', 'scene-head');
+  const titles = el('div');
+  titles.append(el('h2', '', t.title), el('div', 'scene-sub', t.sub));
+  const meta = el('div', 'scene-meta');
+  meta.append(el('div', 'scene-time', s.time), el('div', 'scene-words', ui.words(s.words)));
+  head.append(titles, meta);
+  sec.append(head);
+
+  const guideWrap = el('div', 'guide-wrap');
+  guideWrap.append(el('div', 'label', ui.guide));
+  const guide = el('div', 'guide');
+  t.guide.forEach(g => {
+    if (typeof g === 'string') guide.append(el('p', '', g));
+    else if (g.speaker) guide.append(el('div', 'label speaker', g.speaker));
+    else guide.append(el('p', 'silence', g.silence));
+  });
+  guideWrap.append(guide);
+
+  const notes = el('div', 'notes');
+  notes.append(note('visual', ui.visual, t.visual));
+  if (t.emotion) notes.append(note('emotion', ui.emotion, t.emotion));
+  if (t.refs) notes.append(note('refs', ui.references, t.refs));
+
+  if (s.wide) {
+    sec.append(guideWrap, notes);
+  } else {
+    const split = el('div', 'split');
+    split.append(guideWrap, notes);
+    sec.append(split);
+  }
+  return sec;
+}
+
+function renderCover(lang) {
+  const c = COVER[lang];
+  const sheet = el('section', 'sheet cover');
+  const top = el('div', 'cover-top');
+  top.append(el('div', 'eyebrow', c.top));
+  const body = el('div', 'cover-body');
+  body.append(el('div', 'cover-kicker', c.kicker));
+  const h1 = el('h1', '', c.l1);
+  h1.append(el('em', '', c.l2));
+  const stats = el('div', 'cover-stats');
+  [[c.s1, c.s1l], [c.s2, c.s2l]].forEach(([b, s]) => {
+    const d = el('div');
+    d.append(el('b', '', b), el('span', '', s));
+    stats.append(d);
+  });
+  body.append(h1, stats);
+  const foot = el('div', 'cover-foot');
+  foot.append(el('span', '', c.f1), el('span', '', c.f2));
+  sheet.append(top, body, foot);
+  return sheet;
+}
+
+function render(lang) {
+  const root = document.getElementById('root');
+  root.replaceChildren(renderCover(lang));
+  PAGES.forEach(nums => {
+    const sheet = el('div', 'sheet');
+    nums.forEach(n => sheet.append(renderScene(SCENES[n - 1], lang)));
+    if (nums.includes(13)) {
+      const e = ENDCARD[lang];
+      const card = el('div', 'endcard');
+      card.append(el('h3', '', e.h), el('div', 'he-line', e.line), el('p', '', e.p));
+      sheet.append(card);
+    }
+    const range = nums.length > 1 ? `${nums[0]}–${nums[nums.length - 1]}` : `${nums[0]}`;
+    sheet.append(el('div', 'sheet-foot', UI[lang].footer + range));
+    root.append(sheet);
+  });
+}
+
+function renderList() {
+  const sheet = el('section', 'sheet');
+  const head = el('div', 'list-head');
+  head.append(
+    el('div', 'eyebrow', 'בכל דור ודור'),
+    el('h2', '', 'רשימת הפרקים'),
+    el('p', '', '13 פרקים, לפי התסריט')
+  );
+  const table = el('table', 'chapters');
+  const thead = el('thead');
+  const hr = el('tr');
+  ['#', 'שם הפרק', 'מקום ותקופה', 'מה קורה בפרק'].forEach(h => hr.append(el('th', '', h)));
+  thead.append(hr);
+  const tbody = el('tbody');
+  CHAPTERS.forEach((c, i) => {
+    const tr = el('tr');
+    tr.append(
+      el('td', 'c-no', String(i + 1).padStart(2, '0')),
+      el('td', 'c-name', c.name),
+      el('td', 'c-period', c.period),
+      el('td', 'c-sum', c.sum)
+    );
+    tbody.append(tr);
+  });
+  table.append(thead, tbody);
+  sheet.append(head, table);
+  document.getElementById('root').replaceChildren(sheet);
+}
+
+function renderUpdated() {
+  const sheet = el('section', 'sheet');
+  const head = el('div', 'list-head');
+  head.append(
+    el('div', 'eyebrow', 'בכל דור ודור'),
+    el('h2', '', 'תסריט מעודכן'),
+    el('p', '', 'גרסה ראשונית. מופיעים כאן רק הפרקים שכבר עברנו עליהם.')
+  );
+  sheet.append(head);
+  UPDATED.forEach(s => sheet.append(renderScene(s, 'he')));
+  document.getElementById('root').replaceChildren(sheet);
+}
+
+function setLang(mode, remember) {
+  const lang = mode === 'en' ? 'en' : 'he';
+  // Keep the reader on the same scene when switching
+  const scenes = [...document.querySelectorAll('.scene')];
+  const current = scenes.findIndex(s => s.getBoundingClientRect().bottom > 80);
+  const anchor = 80;
+  let ratio = 0, gap = 0;
+  if (current >= 0) {
+    const rect = scenes[current].getBoundingClientRect();
+    ratio = Math.min(1, Math.max(0, (anchor - rect.top) / rect.height));
+    gap = Math.max(0, rect.top - anchor);
+  }
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-set-lang]').forEach(b => {
+    b.setAttribute('aria-pressed', String(b.dataset.setLang === mode));
+  });
+  if (mode === 'list' || mode === 'updated') {
+    if (mode === 'list') renderList(); else renderUpdated();
+    window.scrollTo(0, 0);
+  } else {
+    render(lang);
+    if (current >= 0) {
+      const target = document.querySelectorAll('.scene')[current];
+      const rect = target.getBoundingClientRect();
+      window.scrollBy(0, rect.top + ratio * rect.height - anchor - gap);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+  if (remember) {
+    try { localStorage.setItem('ieg-lang', mode); } catch (e) {}
+  }
+}
+
+document.querySelectorAll('[data-set-lang]').forEach(b => {
+  b.addEventListener('click', () => setLang(b.dataset.setLang, true));
+});
+
+// Load both languages' fonts up front, so switching tabs doesn't shift the text afterwards
+if (document.fonts && document.fonts.load) {
+  [
+    ['400 17px "Noto Serif Hebrew"', 'אב'], ['500 17px "Noto Serif Hebrew"', 'אב'], ['800 27px "Noto Serif Hebrew"', 'אב'],
+    ['400 15px Heebo', 'אב'], ['500 15px Heebo', 'אב'], ['600 13px Heebo', 'אב'],
+    ['400 17px Bitter', 'ab'], ['italic 400 16px Bitter', 'ab'], ['700 19px Bitter', 'ab'], ['800 27px Bitter', 'ab'], ['italic 800 80px Bitter', 'ab'],
+    ['400 14px Barlow', 'ab'], ['600 11px Barlow', 'ab']
+  ].forEach(([font, text]) => document.fonts.load(font, text).catch(() => {}));
+}
+
+let startLang = ['#he', '#en', '#list', '#updated'].includes(location.hash) ? location.hash.slice(1) : null;
+if (!startLang) {
+  try { startLang = localStorage.getItem('ieg-lang'); } catch (e) {}
+}
+setLang(['he', 'list', 'updated'].includes(startLang) ? startLang : 'en', false);
+</script>
+</body>
+</html>
