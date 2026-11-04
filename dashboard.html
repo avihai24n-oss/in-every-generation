@@ -90,8 +90,29 @@ section{padding-top:48px}
 #seehear td[data-k="time"]{white-space:nowrap;font-family:var(--f-mono);font-size:12.5px;width:120px}
 #seehear td[data-k="title"]{font-family:var(--f-head);font-weight:600;font-stretch:75%;font-size:16px;letter-spacing:.02em;width:130px}
 #seehear td.en{direction:ltr;text-align:left}
-#seehear td.notes{min-width:170px;font-size:14.5px}
-#seehear td.notes:empty::before{content:"—";color:var(--faint)}
+#seehear td.notes{position:relative;min-width:210px;width:18%;padding:0;font-size:14.5px;border-inline-start:1px solid var(--edge-soft)}
+#seehear td.ch-empty{padding:16px 12px;color:var(--faint);font-size:15px}
+.note-in{position:absolute;inset:0;display:block;width:100%;height:100%;resize:none;overflow:hidden;font:inherit;line-height:1.65;color:inherit;background:transparent;border:0;border-radius:0;padding:12px}
+.note-in:hover{background:#fafafa}
+.note-in:focus{outline:2px solid #000;outline-offset:-2px;background:#fff}
+.note-in::placeholder{color:var(--faint)}
+.note-in:placeholder-shown{direction:rtl;text-align:right}
+.note-state{position:absolute;bottom:3px;inset-inline-end:8px;font-family:var(--f-mono);font-size:11px;color:var(--faint);pointer-events:none}
+.ch{border:1px solid var(--edge);background:#fff}
+.ch+.ch{margin-top:-1px}
+.ch:first-of-type{border-start-start-radius:var(--r);border-start-end-radius:var(--r)}
+.ch:last-of-type{border-end-start-radius:var(--r);border-end-end-radius:var(--r)}
+.ch-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;cursor:pointer;list-style:none}
+.ch-head::-webkit-details-marker{display:none}
+.ch-head:hover{background:#fafafa}
+.ch-head:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.ch-chev{flex:none;width:16px;text-align:center;font-size:20px;line-height:1;transition:transform .15s}
+.ch[open] .ch-chev{transform:rotate(-90deg)}
+.ch-n{font-family:var(--f-head);font-weight:600;font-stretch:75%;font-size:20px}
+.ch-title{font-family:var(--f-head);font-weight:600;font-stretch:75%;font-size:20px;letter-spacing:.02em}
+.ch-sub{font-size:15px}
+.ch-meta{margin-inline-start:auto;font-family:var(--f-mono);font-size:12px;color:var(--faint);word-spacing:-.32em}
+.ch .tw{border:0;border-top:1px solid var(--edge);border-radius:0}
 #seehear td.dn,#seehear th.dn{width:60px;text-align:center}
 #seehear tr.gap td{padding:0;background:#fafafa;text-align:center;height:22px;opacity:1}
 #seehear tr.gap span{display:inline-block;font-family:var(--f-mono);font-size:11.5px;background:#fff;border:1px solid var(--edge);border-radius:var(--r-xs);padding:0 9px;transform:translateY(-1px)}
@@ -192,6 +213,8 @@ footer{margin-top:0;padding:22px 0 40px;border-top:1px solid var(--edge);font-si
 
    id        מזהה קצר וייחודי לפרויקט. הסימונים והעריכות נשמרים בדפדפן לפי המזהה.
    images    נתיב יחסי לקובץ הזה. בלי תמונה מוצג מקום ריק.
+   chapters  רואים שומעים מחולק לפרקים, וכל פרק מחזיק את השוטים שלו ב-scenes. הכול נפתח סגור.
+   notes     הערה התחלתית לשוט. הערה שנכתבת בדשבורד נשמרת בדפדפן וגוברת עליה.
    gap       הפס שבין סצנה לבאה, למשל כמה שנים עברו. אפשר להשמיט.
    ready/done סימון התחלתי של "מוכן" ו"בוצע". סימון בדפדפן גובר עליו.
    ts        השנייה בהקלטה. נפתח עם recording של אותו סבב.
@@ -211,46 +234,60 @@ const PROJECT = {
   },
 
   seeHear: {
-    intro: 'מה רואים ומה שומעים בכל פרק. גרסה ראשונית: בינתיים פרק 1.',
+    intro: 'פותחים פרק כדי לראות את השוטים שלו. פרק שעוד לא עברנו עליו נשאר ריק.',
     timeLabel: 'שנה',
-    titleLabel: 'פרק 1',
+    titleLabel: 'שוט',
     columns: [
       { k: 'see', label: 'מה רואים' },
       { k: 'vo_he', label: 'קריינות (עברית)' },
       { k: 'vo_en', label: 'קריינות (English)', en: true },
       { k: 'notes', label: 'הערות', notes: true },
     ],
-    scenes: [
-      { id: '1.1', time: '1899', title: 'טוויין',
-        see: 'הדמיה של מארק טוויין אומר את הדברים.',
-        vo_he: 'טוויין: ״אם הנתונים הסטטיסטיים נכונים, היהודים מהווים אחוז אחד בלבד מהמין האנושי.״',
-        vo_en: 'Twain: “If the statistics are right, the Jews constitute but one per cent of the human race.”',
-        notes: '' },
-      { id: '1.2', time: '1899', title: 'כוכבים',
-        see: 'כוכבים ושביל החלב, מלווים את מה שהוא אומר.',
-        vo_he: 'טוויין: ״זה מעלה על הדעת ענן עמום וקלוש של אבק כוכבים, האובד בזוהר שביל החלב.״',
-        vo_en: 'Twain: “It suggests a nebulous dim puff of star-dust lost in the blaze of the Milky Way.”',
-        notes: '' },
-      { id: '1.3', time: '1899', title: 'טוויין',
-        see: 'חוזרים לטוויין.',
-        vo_he: 'טוויין: ״למען האמת, בקושי היינו אמורים לשמוע על היהודי.״',
-        vo_en: 'Twain: “Properly the Jew ought hardly to be heard of.”',
-        notes: '' },
-      { id: '1.4', time: '1899', title: 'אימפריות',
-        see: 'אימפריות שנעלמות: מצרים, בבל, פרס, יוון, רומא.',
-        vo_he: 'טוויין: ״המצרי, הבבלי והפרסי קמו, מילאו את העולם בקול ובהדר, ואז דעכו לכדי חומר של חלומות וחלפו; היווני והרומאי באו אחריהם, הקימו רעש גדול, ואינם עוד.״',
-        vo_en: 'Twain: “The Egyptian, the Babylonian, and the Persian rose, filled the planet with sound and splendor, then faded to dream-stuff and passed away; the Greek and the Roman followed, and made a vast noise, and they are gone.”',
-        notes: '' },
-      { id: '1.5', time: '1899', title: 'טוויין',
-        see: 'חוזרים לטוויין.',
-        vo_he: 'טוויין: ״היהודי ראה את כולם. הכול בן תמותה, מלבד היהודי. מהו סוד אלמותו?״',
-        vo_en: 'Twain: “The Jew saw them all. All things are mortal but the Jew. What is the secret of his immortality?”',
-        notes: '' },
-      { id: '1.6', time: '', title: 'כניסה למצרים',
-        see: 'נכנסים למצרים, וממשיכים משם לסצנה של מצרים.',
-        vo_he: 'מדריך: מארק טוויין כתב את זה ב-1899.<br>לא היה לו מושג מה עומד לבוא.<br>בכל דור ודור עומדים עלינו.<br>הסרט הזה הוא התשובה לשאלה שלו.',
-        vo_en: 'Guide: Mark Twain wrote that in 1899.<br>He had no idea what was coming.<br>In every generation, they rise up against us.<br>This film is the answer to his question.',
-        notes: '' },
+    chapters: [
+      { id: '1', title: 'פתיחה — השאלה', sub: 'מארק טוויין · 1899', scenes: [
+          { id: '1.1', time: '1899', title: 'טוויין',
+            see: 'הדמיה של מארק טוויין אומר את הדברים.',
+            vo_he: 'טוויין: ״אם הנתונים הסטטיסטיים נכונים, היהודים מהווים אחוז אחד בלבד מהמין האנושי.״',
+            vo_en: 'Twain: “If the statistics are right, the Jews constitute but one per cent of the human race.”',
+            notes: '' },
+          { id: '1.2', time: '1899', title: 'כוכבים',
+            see: 'כוכבים ושביל החלב, מלווים את מה שהוא אומר.',
+            vo_he: 'טוויין: ״זה מעלה על הדעת ענן עמום וקלוש של אבק כוכבים, האובד בזוהר שביל החלב.״',
+            vo_en: 'Twain: “It suggests a nebulous dim puff of star-dust lost in the blaze of the Milky Way.”',
+            notes: '' },
+          { id: '1.3', time: '1899', title: 'טוויין',
+            see: 'חוזרים לטוויין.',
+            vo_he: 'טוויין: ״למען האמת, בקושי היינו אמורים לשמוע על היהודי.״',
+            vo_en: 'Twain: “Properly the Jew ought hardly to be heard of.”',
+            notes: '' },
+          { id: '1.4', time: '1899', title: 'אימפריות',
+            see: 'אימפריות שנעלמות: מצרים, בבל, פרס, יוון, רומא.',
+            vo_he: 'טוויין: ״המצרי, הבבלי והפרסי קמו, מילאו את העולם בקול ובהדר, ואז דעכו לכדי חומר של חלומות וחלפו; היווני והרומאי באו אחריהם, הקימו רעש גדול, ואינם עוד.״',
+            vo_en: 'Twain: “The Egyptian, the Babylonian, and the Persian rose, filled the planet with sound and splendor, then faded to dream-stuff and passed away; the Greek and the Roman followed, and made a vast noise, and they are gone.”',
+            notes: '' },
+          { id: '1.5', time: '1899', title: 'טוויין',
+            see: 'חוזרים לטוויין.',
+            vo_he: 'טוויין: ״היהודי ראה את כולם. הכול בן תמותה, מלבד היהודי. מהו סוד אלמותו?״',
+            vo_en: 'Twain: “The Jew saw them all. All things are mortal but the Jew. What is the secret of his immortality?”',
+            notes: '' },
+          { id: '1.6', time: '', title: 'כניסה למצרים',
+            see: 'נכנסים למצרים, וממשיכים משם לסצנה של מצרים.',
+            vo_he: 'מדריך: מארק טוויין כתב את זה ב-1899.<br>לא היה לו מושג מה עומד לבוא.<br>בכל דור ודור עומדים עלינו.<br>הסרט הזה הוא התשובה לשאלה שלו.',
+            vo_en: 'Guide: Mark Twain wrote that in 1899.<br>He had no idea what was coming.<br>In every generation, they rise up against us.<br>This film is the answer to his question.',
+            notes: '' },
+      ]},
+      { id: '2', title: 'שפרה, פועה, משה', sub: 'מצרים · בערך 1300 לפנה״ס', scenes: [] },
+      { id: '3', title: 'אסתר', sub: 'שושן, פרס · בערך 470 לפנה״ס', scenes: [] },
+      { id: '4', title: 'מתתיהו ויהודה המכבי', sub: 'מודיעין, יהודה · 167 לפנה״ס', scenes: [] },
+      { id: '5', title: 'הרמב״ן', sub: 'ברצלונה · 1263', scenes: [] },
+      { id: '6', title: 'גרציה נשיא', sub: 'ליסבון ← איסטנבול · 1536–1556', scenes: [] },
+      { id: '7', title: 'אלפרד דרייפוס ותיאודור הרצל', sub: 'פריז · 1895', scenes: [] },
+      { id: '8', title: 'פרעות קישינב', sub: 'קישינב ← הגליל · 1903–1909', scenes: [] },
+      { id: '9', title: 'אנילביץ׳, פצ׳רסקי, האחים בילסקי', sub: 'ורשה · סוביבור · היערות · 1943', scenes: [] },
+      { id: '10', title: 'יוני נתניהו, נתן שרנסקי, ארבעה-עשר האלף', sub: 'אנטבה · מוסקבה · אדיס אבבה · 1976–1991', scenes: [] },
+      { id: '11', title: 'ענבל רבין-ליברמן ונועה ארגמני', sub: 'ניר עם · תל אביב · בכל מקום · 2023', scenes: [] },
+      { id: '12', title: 'אלה שנלחמים עכשיו', sub: 'ברשת · היום', scenes: [] },
+      { id: '13', title: 'סיום — התשובה', sub: 'שוב השמיים', scenes: [] },
     ],
   },
 
@@ -382,8 +419,8 @@ const PROJECT = {
   }
   function stats() {
     var set = function (id, v) { var el = $('[data-stat="' + id + '"]'); if (el) el.textContent = v; };
-    var d = doneScenes(), c = P.seeHear.scenes.filter(function (s) { return d[s.id]; }).length;
-    set('seehear', 'מוכנות ' + c + ' מתוך ' + P.seeHear.scenes.length + ' סצנות');
+    var d = doneScenes(), c = SHOTS.filter(function (s) { return d[s.id]; }).length;
+    set('seehear', (SH.chapters.length === 1 ? 'פרק אחד' : SH.chapters.length + ' פרקים') + ' · מוכנים ' + c + ' מתוך ' + SHOTS.length + ' שוטים');
     var all = 0, did = 0; P.rounds.forEach(function (r) { var x = roundCount(r); all += x[1]; did += x[0]; });
     set('fixes', P.rounds.length + ' סבבים · בוצעו ' + did + ' מתוך ' + all);
     set('elements', P.elements.sections.map(function (s) { return s.cards.length + ' ' + s.title; }).join(' · '));
@@ -395,26 +432,40 @@ const PROJECT = {
     return '<a class="' + cls + '" href="' + esc(src) + '" data-lb><img loading="lazy" src="' + esc(src) + '" alt="' + esc(alt) + '"></a>';
   }
   /* ---------- רואים שומעים ---------- */
-  var SH = P.seeHear, DKEY = 'seehear-done';
+  var SH = P.seeHear, DKEY = 'seehear-done', NKEY = 'seehear-notes';
+  var SHOTS = SH.chapters.reduce(function (a, c) { return a.concat(c.scenes); }, []);
   var openSet = {}, shEl;
   function doneScenes() {
     var saved = getJ(DKEY, null); if (saved) return saved;
-    var o = {}; SH.scenes.forEach(function (s) { if (s.ready) o[s.id] = 1; }); return o;
+    var o = {}; SHOTS.forEach(function (s) { if (s.ready) o[s.id] = 1; }); return o;
   }
-  function renderSeeHear() {
+  function savedNotes() { return getJ(NKEY, {}); }
+  function noteOf(s, n) { return s.id in n ? n[s.id] : (s.notes || ''); }
+  function shRows(ch, notes) {
     var span = 4 + SH.columns.length, rows = '';
-    SH.scenes.forEach(function (s, i) {
+    if (!ch.scenes.length) return '<tr><td class="ch-empty" colspan="' + span + '">עוד אין שוטים בפרק הזה.</td></tr>';
+    ch.scenes.forEach(function (s, i) {
       rows += '<tr data-id="' + esc(s.id) + '"><td class="dn"><button type="button" class="ck" aria-pressed="false" aria-label="סמן כמוכן"></button></td>' +
         '<td class="n">' + esc(s.id) + '</td><td data-k="time">' + (s.time || '') + '</td><td data-k="title">' + (s.title || '') + '</td>' +
         SH.columns.map(function (c) {
-          return '<td data-k="' + c.k + '"' + (c.en ? ' dir="ltr" class="en"' : c.notes ? ' class="notes"' : '') + '>' + (s[c.k] || '') + '</td>';
+          if (c.notes) return '<td data-k="' + c.k + '" class="notes"><textarea class="note-in" rows="1" dir="auto" placeholder="כתוב הערה" aria-label="הערה לשוט ' + esc(s.id) + '">' + esc(noteOf(s, notes)) + '</textarea><span class="note-state" aria-live="polite"></span></td>';
+          return '<td data-k="' + c.k + '"' + (c.en ? ' dir="ltr" class="en"' : '') + '>' + (s[c.k] || '') + '</td>';
         }).join('') + '</tr>';
-      if (s.gap && i < SH.scenes.length - 1) rows += '<tr class="gap" aria-hidden="true"><td colspan="' + span + '"><span>' + esc(s.gap) + '</span></td></tr>';
+      if (s.gap && i < ch.scenes.length - 1) rows += '<tr class="gap" aria-hidden="true"><td colspan="' + span + '"><span>' + esc(s.gap) + '</span></td></tr>';
     });
-    $('#p-seehear').innerHTML = '<section id="seehear">' + shead('רואים שומעים', SH.scenes.length + ' סצנות') + '<p class="sintro">' + SH.intro + '</p>' +
-      '<div class="tw"><table><thead><tr><th class="dn">מוכן</th><th>#</th><th>' + esc(SH.timeLabel) + '</th><th>' + esc(SH.titleLabel) + '</th>' +
-      SH.columns.map(function (c) { return '<th>' + esc(c.label) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows + '</tbody></table></div></section>';
+    return rows;
+  }
+  function renderSeeHear() {
+    var notes = savedNotes();
+    var chapters = SH.chapters.map(function (ch) {
+      return '<details class="ch" data-ch="' + esc(ch.id) + '"><summary class="ch-head"><span class="ch-chev" aria-hidden="true">‹</span><span class="ch-n">' + esc(ch.id) + '</span><span class="ch-title">' + esc(ch.title) + '</span>' +
+        (ch.sub ? '<span class="ch-sub">' + esc(ch.sub) + '</span>' : '') + '<span class="ch-meta"></span></summary>' +
+        '<div class="tw"><table><thead><tr><th class="dn">מוכן</th><th>#</th><th>' + esc(SH.timeLabel) + '</th><th>' + esc(SH.titleLabel) + '</th>' +
+        SH.columns.map(function (c) { return '<th>' + esc(c.label) + '</th>'; }).join('') + '</tr></thead><tbody>' + shRows(ch, notes) + '</tbody></table></div></details>';
+    }).join('');
+    $('#p-seehear').innerHTML = '<section id="seehear">' + shead('רואים שומעים', (SH.chapters.length === 1 ? 'פרק אחד' : SH.chapters.length + ' פרקים') + ' · ' + SHOTS.length + ' שוטים') + '<p class="sintro">' + SH.intro + '</p>' + chapters + '</section>';
     shEl = $('#seehear');
+    $$('.ch', shEl).forEach(function (d) { d.addEventListener('toggle', function () { if (d.open) clampSetup(); }); });
     $$('.ck', shEl).forEach(function (b) {
       b.addEventListener('click', function () {
         var id = b.closest('tr').dataset.id, d = doneScenes(), on = !d[id];
@@ -423,15 +474,42 @@ const PROJECT = {
         paintDone(); stats();
       });
     });
+    $$('.note-in', shEl).forEach(function (ta) {
+      var id = ta.closest('tr').dataset.id, state = ta.nextElementSibling, timer, fade;
+      function save() {
+        clearTimeout(timer);
+        var n = savedNotes(); n[id] = ta.value;
+        state.textContent = setJ(NKEY, n) ? 'נשמר' : 'לא נשמר';
+        clearTimeout(fade); fade = setTimeout(function () { state.textContent = ''; }, 1500);
+        paintChapters();
+      }
+      ta.addEventListener('input', function () { growNote(ta); clearTimeout(timer); timer = setTimeout(save, 400); });
+      ta.addEventListener('blur', function () { if (timer) save(); });
+    });
     paintDone();
     var t; function rz() { clearTimeout(t); t = setTimeout(clampSetup, 120); }
     window.addEventListener('resize', rz);
   }
+  function growNote(ta) {
+    var td = ta.parentNode; td.style.height = '';
+    if (ta.scrollHeight > td.offsetHeight) td.style.height = ta.scrollHeight + 'px';
+  }
+  function paintChapters() {
+    var d = doneScenes(), n = savedNotes();
+    $$('.ch', shEl).forEach(function (box, i) {
+      var shots = SH.chapters[i].scenes;
+      var ready = shots.filter(function (s) { return d[s.id]; }).length;
+      var noted = shots.filter(function (s) { return noteOf(s, n).trim(); }).length;
+      $('.ch-meta', box).textContent = shots.length ? shots.length + ' שוטים · מוכנים ' + ready + (noted ? ' · הערות ' + noted : '') : 'ריק';
+    });
+  }
   function cellKey(td) { return td.closest('tr').dataset.id + '.' + td.dataset.k; }
   function clampSetup() {
     if (!shEl || shEl.closest('[hidden]')) return;
+    $$('.ch[open] .note-in', shEl).forEach(growNote);
     SH.columns.forEach(function (col) {
-      $$('td[data-k="' + col.k + '"]', shEl).forEach(function (td) {
+      if (col.notes) return;
+      $$('.ch[open] td[data-k="' + col.k + '"]', shEl).forEach(function (td) {
         var k = cellKey(td), c = $('.clamp', td), b = $('.more', td);
         if (!td.textContent.trim()) { if (b) b.remove(); return; }
         if (!c) { c = document.createElement('span'); c.className = 'clamp'; while (td.firstChild) c.appendChild(td.firstChild); td.appendChild(c); }
@@ -454,6 +532,7 @@ const PROJECT = {
   function moreLabel(b, open, en) { b.textContent = open ? (en ? 'Show less' : 'הצג פחות') : (en ? 'Show more' : 'הצג עוד'); }
   function paintDone() {
     var d = doneScenes(), rows = $$('tbody tr[data-id]', shEl);
+    paintChapters();
     rows.forEach(function (tr) { var on = !!d[tr.dataset.id]; tr.classList.toggle('done', on); $('.ck', tr).setAttribute('aria-pressed', on ? 'true' : 'false'); });
   }
   /* ---------- תיקונים ---------- */
